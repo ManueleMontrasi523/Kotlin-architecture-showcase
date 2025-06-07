@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+</head>
+<body>
+<h1>Dashboard</h1>
+
+<a href="http://localhost:8080/user"> <button id="manageUserBtn">Manage User</button> </a>
+<a href="http://localhost:8080/product"> <button  id="manageProductBtn">Manage Product</button> </a>
+<a href="http://localhost:8080/payment"> <button  id="managePaymentBtn">Manage Payment</button> </a>
+
+<br><hr>
+
+<div class="container">
+    <label for="entitySelect">Select entity:</label>
+    <select id="entitySelect">
+        <option value="user">User</option>
+        <option value="product">Product</option>
+        <option value="order">Order</option>
+    </select>
+
+    <input type="text" id="searchInput" placeholder="Search..." />
+
+    <button id="updateBtn" style="float: right;">Update</button>
+
+    <table id="entityTable">
+        <thead>
+        <tr id="tableHeader"></tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+    <div id="noData" class="no-data" style="display:none;">No data Found</div><br>
+
+    <div id="orderMessage2"></div>
+</div>
+
+<hr>
+
+<h2>Create Order</h2>
+<div class="container" id="orderContainer">
+    <label for="userSelect">Select User:</label>
+    <select id="userSelect"></select>
+
+    <h3>Products</h3>
+    <div id="productsContainer"></div>
+    <button id="addProductBtn" type="button">Add Product</button>
+    <br><br>
+    <button id="submitOrderBtn" type="button">Submit Order</button>
+
+    <div id="orderMessage"></div>
+</div>
+
+<script th:src="@{/js/index.js}"></script>
+</body>
+</html>
