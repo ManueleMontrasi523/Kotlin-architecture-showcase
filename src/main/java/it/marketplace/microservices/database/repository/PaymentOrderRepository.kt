@@ -1,10 +1,10 @@
-package it.marketplace.microservices.database.repository;
+package it.marketplace.microservices.database.repository
 
-import it.marketplace.microservices.common.enums.StatusOrderEnum;
+import it.marketplace.microservices.common.enums.StatusOrderEnum
 import it.marketplace.microservices.database.entity.PaymentOrderEntity
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
+import org.springframework.stereotype.Repository
 
 
 

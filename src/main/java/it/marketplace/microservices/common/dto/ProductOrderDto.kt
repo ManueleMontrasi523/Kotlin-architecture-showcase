@@ -1,4 +1,4 @@
-package it.marketplace.microservices.common.dto;
+package it.marketplace.microservices.common.dto
 
 import java.math.BigDecimal
 import java.time.LocalDateTime

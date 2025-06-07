@@ -1,4 +1,4 @@
-package it.marketplace.microservices.common.enums;
+package it.marketplace.microservices.common.enums
 
 /**
  * Enum representing product categories in the marketplace system.

@@ -17,7 +17,7 @@ data class OrderEntity(
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq")
     @SequenceGenerator(name = "order_seq", sequenceName = "order_sequence", allocationSize = 1)
     @Column(name = "ID", updatable = false, nullable = false)
-    val id: Long? = null,
+    val id: Long,
 
     @Column(name = "ORDER_CODE", unique = true, nullable = false)
     var orderCode: String,

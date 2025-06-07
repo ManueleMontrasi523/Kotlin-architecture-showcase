@@ -1,4 +1,4 @@
-package it.marketplace.microservices.common.dto;
+package it.marketplace.microservices.common.dto
 
 import it.marketplace.microservices.common.enums.StatusOrderEnum
 import java.time.LocalDateTime

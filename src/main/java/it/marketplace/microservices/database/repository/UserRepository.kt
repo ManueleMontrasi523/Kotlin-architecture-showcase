@@ -1,4 +1,4 @@
-package it.marketplace.microservices.database.repository;
+package it.marketplace.microservices.database.repository
 
 import it.marketplace.microservices.common.enums.StatusUserEnum
 import it.marketplace.microservices.database.entity.UserEntity

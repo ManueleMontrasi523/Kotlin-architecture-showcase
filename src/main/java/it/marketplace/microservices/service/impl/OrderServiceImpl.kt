@@ -73,7 +73,7 @@ class OrderServiceImpl @Autowired constructor(
     }
 
     override fun findByCode(code: String): OrderDto {
-        val entity: OrderEntity = checkIfOrderExist(code);
+        val entity: OrderEntity = checkIfOrderExist(code)
         return entity.let { OrderMapper.toDto(it) }
     }
 

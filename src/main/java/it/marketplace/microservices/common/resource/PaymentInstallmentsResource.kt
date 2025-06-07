@@ -1,4 +1,4 @@
-package it.marketplace.microservices.common.resource;
+package it.marketplace.microservices.common.resource
 
 import it.marketplace.microservices.common.enums.StatusOrderEnum
 import java.time.LocalDateTime

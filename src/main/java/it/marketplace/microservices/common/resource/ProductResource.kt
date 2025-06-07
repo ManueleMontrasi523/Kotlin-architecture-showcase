@@ -1,4 +1,4 @@
-package it.marketplace.microservices.common.resource;
+package it.marketplace.microservices.common.resource
 
 import io.swagger.v3.oas.annotations.media.Schema
 import it.marketplace.microservices.common.enums.CategoryEnum

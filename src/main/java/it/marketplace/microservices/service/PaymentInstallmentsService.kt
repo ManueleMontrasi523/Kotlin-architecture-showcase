@@ -1,6 +1,6 @@
 package it.marketplace.microservices.service
 
-import it.marketplace.microservices.common.dto.PaymentInstallmentsDto
+import PaymentInstallmentsDto
 
 /**
  * Service interface for managing payment installments in the marketplace system.
