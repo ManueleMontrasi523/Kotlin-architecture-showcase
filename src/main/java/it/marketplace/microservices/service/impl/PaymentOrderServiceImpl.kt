@@ -3,6 +3,8 @@ package it.marketplace.microservices.service.impl
 import it.marketplace.microservices.common.dto.OrderDto
 import it.marketplace.microservices.common.dto.PaymentOrderDto
 import it.marketplace.microservices.common.enums.StatusOrderEnum
+import it.marketplace.microservices.database.entity.PaymentInstallmentsEntity
+import it.marketplace.microservices.database.entity.toDto
 import it.marketplace.microservices.database.repository.PaymentInstallmentsRepository
 import it.marketplace.microservices.database.repository.PaymentOrderRepository
 import it.marketplace.microservices.service.OrderService
@@ -24,14 +26,14 @@ class PaymentOrderServiceImpl @Autowired constructor(
         val orders: List<OrderDto> = orderService.findByUserMail(email)
         val orderCodes = if (orders.isNotEmpty()) orders.map { it.orderCode } else null
         return if (orderCodes != null) {
-            repository.findByOrderCodeIn(orderCodes).map { PaymentOrderMapper.toDto(it) }
+            repository.findByOrderCodeIn(orderCodes).map { it.toDto() }
         } else {
             emptyList()
         }
     }
 
     override fun findAll(): List<PaymentOrderDto> =
-        repository.findAll().map { PaymentOrderMapper.toDto(it) }
+        repository.findAll().map { it.toDto() }
 
     override fun payOrder(orderCode: String, isInstallments: Boolean) {
         log.info("Paid order {} with installments {}", orderCode, isInstallments)
@@ -51,12 +53,13 @@ class PaymentOrderServiceImpl @Autowired constructor(
         val payEntities = mutableListOf<PaymentInstallmentsEntity>()
         val miniDebit = debit / 12
         for (i in 1..12) {
-            val installment = PaymentInstallmentsEntity()
-            installment.reference = "RATE_$i"
-            installment.orderCode = orderCode
-            installment.status = StatusOrderEnum.PENDING_PAYMENT
-            installment.debit = miniDebit
-            installment.tmsUpdate = LocalDateTime.now()
+            val installment = PaymentInstallmentsEntity(
+                reference = "RATE_$i",
+                orderCode = orderCode,
+                status = StatusOrderEnum.PENDING_PAYMENT,
+                debit = miniDebit,
+                tmsUpdate = LocalDateTime.now()
+            )
             payEntities.add(installment)
         }
         paymentInstallmentsRepository.saveAll(payEntities)

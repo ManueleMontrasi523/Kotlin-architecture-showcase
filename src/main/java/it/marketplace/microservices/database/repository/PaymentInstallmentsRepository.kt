@@ -4,7 +4,7 @@ import it.marketplace.microservices.common.enums.StatusOrderEnum
 import it.marketplace.microservices.database.entity.PaymentInstallmentsEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
-import java.util.List
+
 
 /**
  * Repository interface for managing PaymentInstallmentsEntity persistence operations.

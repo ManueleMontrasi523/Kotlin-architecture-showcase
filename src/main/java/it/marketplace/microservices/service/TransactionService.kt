@@ -13,9 +13,9 @@ interface TransactionService {
 
     /**
      * Starts processing for a pending payment, updating order and payment order status.
-     * @param orderCode the message map containing order code and debit
+     * @param message the message map containing order code and debit
      */
-    fun startPendingPayment(orderCode: Map<String, String>)
+    fun startPendingPayment(message: Map<String, String>)
 
     /**
      * Reads all orders in PENDING_PAYMENT status and updates their state if paid.

@@ -1,10 +1,9 @@
 package it.marketplace.microservices.controller.order
 
 import io.swagger.v3.oas.annotations.tags.Tag
-import it.marketplace.microservices.common.dto.OrderDto
+import it.marketplace.microservices.common.dto.toResource
 import it.marketplace.microservices.common.resource.OrderResource
 import it.marketplace.microservices.config.exception.ServiceException
-import it.marketplace.microservices.config.mapper.OrderMapper.toResource
 import it.marketplace.microservices.service.OrderService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -27,7 +26,7 @@ class GetOrderController(
      */
     @GetMapping("/get-by-code")
     fun find(@RequestParam("orderCode") code: String): ResponseEntity<OrderResource> {
-        return ResponseEntity.ok(toResource(service.findByCode(code)))
+        return ResponseEntity.ok(service.findByCode(code).toResource())
     }
 
     /**
@@ -37,9 +36,7 @@ class GetOrderController(
      * @throws ServiceException if the orders cannot be retrieved
      */
     @GetMapping("/get-all")
-    fun findAll(): ResponseEntity<List<OrderResource>> {
-        val dtos: List<OrderDto?> = service.findAll()
-        val resources = dtos.map { toResource(it) }
-        return ResponseEntity.ok(resources)
+    fun findAll(): ResponseEntity<List<OrderResource?>?> {
+        return ResponseEntity.ok(service.findAll().map { it?.toResource() })
     }
 }

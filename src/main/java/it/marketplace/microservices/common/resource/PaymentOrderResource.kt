@@ -1,6 +1,7 @@
 package it.marketplace.microservices.common.resource
 
 import io.swagger.v3.oas.annotations.media.Schema
+import it.marketplace.microservices.common.dto.PaymentOrderDto
 import it.marketplace.microservices.common.enums.StatusOrderEnum
 import java.time.LocalDateTime
 
@@ -11,16 +12,24 @@ import java.time.LocalDateTime
 data class PaymentOrderResource(
 
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
-    var id: Long,
+    var id: Long?,
 
     var orderCode: String,
     var status: StatusOrderEnum,
     var debit: Double,
-    var paid: Double,
 
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     var orderDate: LocalDateTime,
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     var tmsUpdate: LocalDateTime
 
+)
+
+fun PaymentOrderResource.toDto() = PaymentOrderDto(
+    id = this.id,
+    orderCode = this.orderCode,
+    status = this.status,
+    debit = this.debit,
+    orderDate = this.orderDate,
+    tmsUpdate = this.tmsUpdate
 )

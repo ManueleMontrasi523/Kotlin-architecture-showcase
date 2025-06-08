@@ -2,6 +2,7 @@ package it.marketplace.microservices.service.impl
 
 import it.marketplace.microservices.common.enums.StatusOrderEnum
 import it.marketplace.microservices.database.entity.OrderEntity
+import it.marketplace.microservices.database.entity.PaymentOrderEntity
 import it.marketplace.microservices.database.repository.OrderRepository
 import it.marketplace.microservices.database.repository.PaymentOrderRepository
 import it.marketplace.microservices.job.JobService
@@ -33,13 +34,13 @@ class TransactionServiceImpl(
 
     override fun startPendingPayment(message: Map<String, String>) {
         logger.info("Start process pending payment with code {}", message)
-        val entity = orderRepository.findByOrderCodeIgnoreCase(message["orderCode"])
+        val entity = orderRepository.findByOrderCodeIgnoreCase(message["orderCode"]!!)
         if (entity != null && entity.status == StatusOrderEnum.PROCESSING) {
             val now = LocalDateTime.now()
             entity.status = StatusOrderEnum.PENDING_PAYMENT
             entity.tmsUpdate = now
 
-            val paymentOrderEntity = it.marketplace.microservices.database.entity.PaymentOrderEntity(
+            val paymentOrderEntity = PaymentOrderEntity(
                 orderCode = message["orderCode"]!!,
                 status = StatusOrderEnum.PENDING_PAYMENT,
                 debit = message["debit"]?.toDouble() ?: 0.0,
@@ -60,9 +61,9 @@ class TransactionServiceImpl(
             for (paymentOrderEntity in paymentOrderEntities) {
                 val orderEntity = orderRepository.findByOrderCodeIgnoreCase(paymentOrderEntity.orderCode)
                 if (paymentOrderEntity.status == StatusOrderEnum.PAID) {
-                    orderEntity.status = StatusOrderEnum.PAID
-                    orderEntity.tmsUpdate = LocalDateTime.now()
-                    orderEntities.add(orderEntity)
+                    orderEntity?.status = StatusOrderEnum.PAID
+                    orderEntity?.tmsUpdate = LocalDateTime.now()
+                    orderEntity?.let { orderEntities.add(it) }
                     orderProcessed++
                 }
             }

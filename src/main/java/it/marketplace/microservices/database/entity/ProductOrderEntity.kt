@@ -1,5 +1,6 @@
 package it.marketplace.microservices.database.entity
 
+import it.marketplace.microservices.common.dto.ProductOrderDto
 import jakarta.persistence.*
 import java.io.Serializable
 import java.math.BigDecimal
@@ -11,12 +12,12 @@ import java.time.LocalDateTime
  */
 @Entity
 @Table(name = "PRODUCT_ORDER")
-data class ProductOrderEntity(
+open class ProductOrderEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_order_seq")
     @SequenceGenerator(name = "product_order_seq", sequenceName = "product_order_sequence", allocationSize = 1)
     @Column(name = "ID", updatable = false, nullable = false)
-    val id: Long? = null,
+    val id: Long,
 
     @Column(name = "ORDER_CODE", nullable = false)
     var orderCode: String,
@@ -34,9 +35,19 @@ data class ProductOrderEntity(
     var total: Double,
 
     @Column(name = "CREATION_DATE")
-    var creationDate: LocalDateTime? = null,
+    var creationDate: LocalDateTime,
 
     @Column(name = "TMS_UPDATE")
-    var tmsUpdate: LocalDateTime? = null
+    var tmsUpdate: LocalDateTime
 ) : Serializable
 
+fun ProductOrderEntity.toProductOrderDto() = ProductOrderDto(
+    id = this.id,
+    orderCode = this.orderCode,
+    productCode = this.productCode,
+    quantity = this.quantity,
+    unitPrice = this.unitPrice,
+    total = this.total,
+    creationDate = this.creationDate,
+    tmsUpdate = this.tmsUpdate
+)

@@ -1,5 +1,6 @@
 package it.marketplace.microservices.common.resource
 
+import PaymentInstallmentsDto
 import it.marketplace.microservices.common.enums.StatusOrderEnum
 import java.time.LocalDateTime
 
@@ -9,7 +10,7 @@ import java.time.LocalDateTime
  */
 data class PaymentInstallmentsResource(
 
-    var id: Long,
+    var id: Long?,
 
     var reference: String,
     var orderCode: String,
@@ -17,4 +18,13 @@ data class PaymentInstallmentsResource(
     var debit: Double,
     var tmsUpdate: LocalDateTime
 
+)
+
+fun PaymentInstallmentsResource.toDto() = PaymentInstallmentsDto(
+    id = this.id,
+    reference = this.reference,
+    orderCode = this.orderCode,
+    status = this.status,
+    debit = this.debit,
+    tmsUpdate = this.tmsUpdate
 )

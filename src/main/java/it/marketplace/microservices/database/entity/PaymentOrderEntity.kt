@@ -1,5 +1,6 @@
 package it.marketplace.microservices.database.entity
 
+import it.marketplace.microservices.common.dto.PaymentOrderDto
 import it.marketplace.microservices.common.enums.StatusOrderEnum
 import jakarta.persistence.*
 import org.springframework.format.annotation.DateTimeFormat
@@ -12,7 +13,8 @@ import java.time.LocalDateTime
  */
 @Entity
 @Table(name = "PAYMENT_ORDER")
-data class PaymentOrderEntity(
+open class PaymentOrderEntity(
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "payment_order_seq")
     @SequenceGenerator(name = "payment_order_seq", sequenceName = "payment_order_sequence", allocationSize = 1)
@@ -38,3 +40,11 @@ data class PaymentOrderEntity(
     var tmsUpdate: LocalDateTime
 ) : Serializable
 
+fun PaymentOrderEntity.toDto() = PaymentOrderDto(
+    id = this.id,
+    orderCode = this.orderCode,
+    status = this.status,
+    debit = this.debit,
+    orderDate = this.orderDate,
+    tmsUpdate = this.tmsUpdate
+)

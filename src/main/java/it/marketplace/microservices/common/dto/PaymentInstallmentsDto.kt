@@ -1,4 +1,5 @@
 import it.marketplace.microservices.common.enums.StatusOrderEnum
+import it.marketplace.microservices.common.resource.PaymentInstallmentsResource
 import java.time.LocalDateTime
 
 /**
@@ -12,11 +13,19 @@ import java.time.LocalDateTime
  * @property tmsUpdate Timestamp of the last update.
  */
 data class PaymentInstallmentsDto(
-    val id: Long? = null,
-    val reference: String? = null,
-    val orderCode: String? = null,
-    val status: StatusOrderEnum? = null,
-    val debit: Double? = null,
-    val tmsUpdate: LocalDateTime? = null
+    val id: Long?,
+    val reference: String,
+    val orderCode: String,
+    val status: StatusOrderEnum,
+    var debit: Double,
+    val tmsUpdate: LocalDateTime
 )
 
+fun PaymentInstallmentsDto.toResource() = PaymentInstallmentsResource(
+    id = id,
+    reference = reference,
+    orderCode = orderCode,
+    status = status,
+    debit = debit,
+    tmsUpdate = tmsUpdate
+)

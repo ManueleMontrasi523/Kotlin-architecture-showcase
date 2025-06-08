@@ -2,7 +2,7 @@ package it.marketplace.microservices.controller.user
 
 import io.swagger.v3.oas.annotations.tags.Tag
 import it.marketplace.microservices.common.resource.UserResource
-import it.marketplace.microservices.config.mapper.UserMapper
+import it.marketplace.microservices.common.resource.toDto
 import it.marketplace.microservices.config.validation.UserValidator
 import it.marketplace.microservices.service.UserService
 import jakarta.validation.Valid
@@ -24,7 +24,7 @@ class PutUserController(
 
     @PutMapping("/update")
     fun update(@Valid @RequestBody userResource: UserResource): ResponseEntity<Map<String, String>> {
-        service.update(UserMapper.toDto(userResource))
+        service.update(userResource.toDto())
         return ResponseEntity.ok(mapOf("message" to "User updated!"))
     }
 }

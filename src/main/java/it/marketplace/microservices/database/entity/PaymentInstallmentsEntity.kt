@@ -1,5 +1,6 @@
 package it.marketplace.microservices.database.entity
 
+import PaymentInstallmentsDto
 import it.marketplace.microservices.common.enums.StatusOrderEnum
 import jakarta.persistence.*
 import org.springframework.format.annotation.DateTimeFormat
@@ -12,10 +13,15 @@ import java.time.LocalDateTime
  */
 @Entity
 @Table(name = "PAYMENT_INSTALLMENTS")
-data class PaymentInstallmentsEntity(
+open class PaymentInstallmentsEntity(
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "payment_installments_seq")
-    @SequenceGenerator(name = "payment_installments_seq", sequenceName = "payment_installments_sequence", allocationSize = 1)
+    @SequenceGenerator(
+        name = "payment_installments_seq",
+        sequenceName = "payment_installments_sequence",
+        allocationSize = 1
+    )
     @Column(name = "ID", updatable = false, nullable = false)
     val id: Long? = null,
 
@@ -37,3 +43,11 @@ data class PaymentInstallmentsEntity(
     var tmsUpdate: LocalDateTime
 ) : Serializable
 
+fun PaymentInstallmentsEntity.toDto() = PaymentInstallmentsDto(
+    id = this.id,
+    reference = this.reference,
+    orderCode = this.orderCode,
+    status = this.status,
+    debit = this.debit,
+    tmsUpdate = this.tmsUpdate
+)

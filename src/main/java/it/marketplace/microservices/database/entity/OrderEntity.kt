@@ -1,5 +1,6 @@
 package it.marketplace.microservices.database.entity
 
+import it.marketplace.microservices.common.dto.OrderDto
 import it.marketplace.microservices.common.enums.StatusOrderEnum
 import jakarta.persistence.*
 import org.springframework.format.annotation.DateTimeFormat
@@ -12,7 +13,8 @@ import java.time.LocalDateTime
  */
 @Entity
 @Table(name = "ORDERS")
-data class OrderEntity(
+open class OrderEntity(
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_seq")
     @SequenceGenerator(name = "order_seq", sequenceName = "order_sequence", allocationSize = 1)
@@ -28,7 +30,7 @@ data class OrderEntity(
 
     @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
     @JoinColumn(name = "FK_ORDER", referencedColumnName = "ID", nullable = false)
-    var productOrder: List<ProductOrderEntity> = emptyList(),
+    var productOrder: List<ProductOrderEntity> = mutableListOf(),
 
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS", nullable = false)
@@ -45,3 +47,14 @@ data class OrderEntity(
     @Column(name = "TMS_UPDATE", nullable = false)
     var tmsUpdate: LocalDateTime
 ) : Serializable
+
+fun OrderEntity.toDto() = OrderDto(
+    id = this.id,
+    orderCode = this.orderCode,
+    user = this.user.toDto(),
+    productOrder = this.productOrder.map { it.toProductOrderDto() },
+    status = this.status,
+    rejectReason = this.rejectReason,
+    orderDate = this.orderDate,
+    tmsUpdate = this.tmsUpdate
+)

@@ -2,15 +2,14 @@ package it.marketplace.microservices.service.impl
 
 import it.marketplace.microservices.common.dto.ProductDto
 import it.marketplace.microservices.common.dto.ProductOrderDto
+import it.marketplace.microservices.common.dto.toEntity
 import it.marketplace.microservices.common.enums.ErrorCode
 import it.marketplace.microservices.config.exception.ServiceException
-import it.marketplace.microservices.config.mapper.ProductMapper.toDto
-import it.marketplace.microservices.config.mapper.ProductMapper.toEntity
 import it.marketplace.microservices.database.entity.ProductEntity
 import it.marketplace.microservices.database.entity.ProductOrderEntity
+import it.marketplace.microservices.database.entity.toDto
 import it.marketplace.microservices.database.repository.ProductRepository
 import it.marketplace.microservices.service.ProductService
-import it.marketplace.microservices.utils.CopyProperties.copyNonNullProperties
 import jakarta.transaction.Transactional
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -28,7 +27,7 @@ open class ProductServiceImpl(
             val entityOld = repository.findByProductCodeIgnoreCase(dto.productCode)
             if (entityOld != null)
                 throw ServiceException(ErrorCode.DATA_ALREADY_PRESENT, "Product already registered")
-            val entity = toEntity(dto)
+            val entity = dto.toEntity()
             entity.creationDate = now
             entity.tmsUpdate = now
             repository.save(entity)
@@ -41,11 +40,11 @@ open class ProductServiceImpl(
     override fun saveAll(dto: List<ProductDto>) {
         try {
             val now = LocalDateTime.now()
-            val productCodes = dto.map { it.productCode }.toList()
+            val productCodes = dto.map { it.productCode }
             val entityOld = repository.findAllByProductCodeIn(productCodes)
             if (entityOld.isNotEmpty())
                 throw ServiceException(ErrorCode.DATA_ALREADY_PRESENT, "Products already registered")
-            val entities = dto.map { toEntity(it) }
+            val entities = dto.map { it.toEntity() }
             entities.forEach { entity ->
                 entity.creationDate = now
                 entity.tmsUpdate = now
@@ -58,18 +57,15 @@ open class ProductServiceImpl(
     }
 
     override fun saveAllDirectly(dto: List<ProductDto>) {
-        val entities = dto.map { toEntity(it) }
-        repository.saveAll(entities)
+        repository.saveAll(dto.map { it.toEntity() })
     }
 
     override fun findByCode(code: String): ProductDto {
-        val entity = checkIfProductExist(code)
-        return toDto(entity)
+        return checkIfProductExist(code).toDto()
     }
 
     override fun findAll(): List<ProductDto> {
-        val entities = repository.findAll()
-        return entities.map { toDto(it) }
+        return repository.findAll().map { it.toDto() }
     }
 
     override fun update(dto: ProductDto) {
@@ -119,5 +115,15 @@ open class ProductServiceImpl(
             throw ServiceException(ErrorCode.PRODUCT_NOT_FOUND, "Product with code: $code not found")
         return entity
     }
-}
 
+    private fun copyNonNullProperties(dto: ProductDto, entity: ProductEntity) {
+        dto.productCode.let { entity.productCode = it }
+        dto.name.let { entity.name = it }
+        dto.description?.let { entity.description = it }
+        dto.price.let { entity.price = it }
+        dto.supply.let { entity.supply = it }
+        dto.category.let { entity.category = it }
+        dto.creationDate.let { entity.creationDate = it }
+        dto.tmsUpdate.let { entity.tmsUpdate = it }
+    }
+}

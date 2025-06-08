@@ -1,16 +1,15 @@
 package it.marketplace.microservices.service.impl
 
 import it.marketplace.microservices.common.dto.UserDto
+import it.marketplace.microservices.common.dto.toEntity
 import it.marketplace.microservices.common.enums.ErrorCode
 import it.marketplace.microservices.common.enums.RoleEnum
 import it.marketplace.microservices.common.enums.StatusUserEnum
 import it.marketplace.microservices.config.exception.ServiceException
-import it.marketplace.microservices.config.mapper.UserMapper.toDto
-import it.marketplace.microservices.config.mapper.UserMapper.toEntity
 import it.marketplace.microservices.database.entity.UserEntity
+import it.marketplace.microservices.database.entity.toDto
 import it.marketplace.microservices.database.repository.UserRepository
 import it.marketplace.microservices.service.UserService
-import it.marketplace.microservices.utils.CopyProperties
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
@@ -35,7 +34,7 @@ class UserServiceImpl(
                 "Email already registered"
             )
 
-            val entity = toEntity(dto)
+            val entity = dto.toEntity()
             entity.role = RoleEnum.CLIENT
             entity.status = StatusUserEnum.ACTIVE
             entity.tmsSubscriptionDate = dto.tmsSubscriptionDate
@@ -57,7 +56,7 @@ class UserServiceImpl(
         try {
             val now = LocalDateTime.now()
             val entities = dtos.map { dto ->
-                val entity = toEntity(dto)
+                val entity = dto.toEntity()
                 entity.role = RoleEnum.CLIENT
                 entity.status = StatusUserEnum.ACTIVE
                 entity.tmsSubscriptionDate = now
@@ -81,8 +80,7 @@ class UserServiceImpl(
      * @throws ServiceException if the user is not found
      */
     override fun findByEmail(email: String): UserDto {
-        val entity = checkIfUserExist(email)
-        return toDto(entity)
+        return checkIfUserExist(email).toDto()
     }
 
     /**
@@ -102,7 +100,7 @@ class UserServiceImpl(
      */
     override fun findAll(status: StatusUserEnum): List<UserDto> {
         val entities = repository.findAllByStatus(status)
-        return entities.map { toDto(it) }
+        return entities.map { it.toDto() }
     }
 
 
@@ -113,11 +111,10 @@ class UserServiceImpl(
      */
     @Throws(ServiceException::class)
     override fun update(dto: UserDto) {
-        val entity: UserEntity = checkIfUserExist(dto.email)
+        val entity = checkIfUserExist(dto.email)
 
-        CopyProperties.copyNonNullProperties(dto, entity)
-        entity.setTmsUpdate(LocalDateTime.now())
-        repository.save<UserEntity>(entity)
+        copyNonNullProperties(dto, entity)
+        repository.save(entity)
     }
 
     /**
@@ -128,8 +125,8 @@ class UserServiceImpl(
     @Throws(ServiceException::class)
     override fun deleteByEmail(email: String) {
         try {
-            val entity: UserEntity = checkIfUserExist(email)
-            repository.deleteById(entity.getId())
+            val entity = checkIfUserExist(email)
+            repository.deleteById(entity.id)
         } catch (e: ServiceException) {
             throw ServiceException(ErrorCode.GENERIC_ERROR, e.message)
         }
@@ -161,5 +158,22 @@ class UserServiceImpl(
             "User with email: $email not found"
         )
         return entity
+    }
+
+    /**
+     * Update only non-nullable dto properties on the entity.
+     * Note: only rejectReason is nullable in OrderDto, so only this field is handled.
+     * If there are other nullable fields in the future, add them here.
+     */
+    private fun copyNonNullProperties(dto: UserDto, entity: UserEntity) {
+        entity.name.let { dto.name = it }
+        entity.lastname.let { dto.lastname = it }
+        entity.email.let { dto.email = it }
+        entity.residenceAddress.let { dto.residenceAddress = it }
+        entity.residenceCity.let { dto.residenceCity = it }
+        entity.role.let { dto.role = it }
+        entity.status.let { dto.status = it }
+        entity.tmsSubscriptionDate.let { dto.tmsSubscriptionDate = it }
+        entity.tmsUpdate = LocalDateTime.now()
     }
 }

@@ -2,8 +2,8 @@ package it.marketplace.microservices.controller.order
 
 import io.swagger.v3.oas.annotations.tags.Tag
 import it.marketplace.microservices.common.resource.OrderResource
+import it.marketplace.microservices.common.resource.toDto
 import it.marketplace.microservices.config.exception.ServiceException
-import it.marketplace.microservices.config.mapper.OrderMapper.toDto
 import it.marketplace.microservices.service.OrderService
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
@@ -23,7 +23,7 @@ class PutOrderController(
      */
     @PutMapping("/update")
     fun update(@Valid @RequestBody resource: OrderResource): ResponseEntity<Map<String, String>> {
-        service.update(toDto(resource))
+        service.update(resource.toDto())
         return ResponseEntity.ok(mapOf("message" to "Order Updated!"))
     }
 

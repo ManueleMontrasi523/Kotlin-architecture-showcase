@@ -1,5 +1,6 @@
 package it.marketplace.microservices.database.entity
 
+import it.marketplace.microservices.common.dto.UserDto
 import it.marketplace.microservices.common.enums.RoleEnum
 import it.marketplace.microservices.common.enums.StatusUserEnum
 import jakarta.persistence.*
@@ -19,7 +20,7 @@ open class UserEntity(
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
     @SequenceGenerator(name = "user_seq", sequenceName = "user_sequence", allocationSize = 1)
     @Column(name = "ID", updatable = false, nullable = false)
-    val id: Long? = null,
+    val id: Long,
 
     @Column(name = "NAME", nullable = false)
     var name: String,
@@ -53,3 +54,16 @@ open class UserEntity(
     var tmsUpdate: LocalDateTime
 
 ) : Serializable
+
+fun UserEntity.toDto() = UserDto(
+    id = this.id,
+    name = this.name,
+    lastname = this.lastname,
+    email = this.email,
+    residenceAddress = this.residenceAddress,
+    residenceCity = this.residenceCity,
+    role = this.role,
+    status = this.status,
+    tmsSubscriptionDate = this.tmsSubscriptionDate,
+    tmsUpdate = this.tmsUpdate
+)

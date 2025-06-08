@@ -1,10 +1,9 @@
 package it.marketplace.microservices.controller.order
 
 import io.swagger.v3.oas.annotations.tags.Tag
-import it.marketplace.microservices.common.dto.OrderDto
 import it.marketplace.microservices.common.resource.OrderResource
+import it.marketplace.microservices.common.resource.toDto
 import it.marketplace.microservices.config.exception.ServiceException
-import it.marketplace.microservices.config.mapper.OrderMapper
 import it.marketplace.microservices.service.OrderService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -26,7 +25,7 @@ class PostOrderController(
      */
     @PostMapping("/add")
     fun save(@RequestBody resource: OrderResource): ResponseEntity<Map<String, String>> {
-        service.save(OrderMapper.toDto(resource))
+        service.save(resource.toDto())
         return ResponseEntity.ok(mapOf("message" to "Order added!"))
     }
 
@@ -38,8 +37,7 @@ class PostOrderController(
      */
     @PostMapping("/add-all")
     fun saveAll(@RequestBody resources: List<OrderResource>): ResponseEntity<Map<String, String>> {
-        val dtos: List<OrderDto> = resources.map { OrderMapper.toDto(it) }
-        service.saveAll(dtos)
+        service.saveAll(resources.map { it.toDto() })
         return ResponseEntity.ok(mapOf("message" to "Orders added!"))
     }
 }

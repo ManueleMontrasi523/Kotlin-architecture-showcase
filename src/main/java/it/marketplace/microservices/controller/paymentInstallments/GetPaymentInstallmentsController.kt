@@ -3,13 +3,13 @@ package it.marketplace.microservices.controller.paymentInstallments
 import io.swagger.v3.oas.annotations.tags.Tag
 import it.marketplace.microservices.common.resource.PaymentInstallmentsResource
 import it.marketplace.microservices.config.exception.ServiceException
-import it.marketplace.microservices.config.mapper.PaymentInstallmentsMapper
 import it.marketplace.microservices.service.PaymentInstallmentsService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import toResource
 
 @RestController
 @RequestMapping("/payment-order")
@@ -25,9 +25,7 @@ class GetPaymentInstallmentsController(
      */
     @GetMapping("/get-by-code")
     fun find(@RequestParam("orderCode") orderCode: String): ResponseEntity<List<PaymentInstallmentsResource?>?> {
-        val resources =
-            service.findAllByCode(orderCode).stream().map { PaymentInstallmentsMapper.toResource(it) }.toList()
-        return ResponseEntity.ok(resources)
+        return ResponseEntity.ok(service.findAllByCode(orderCode).map { it.toResource() })
     }
 }
 

@@ -2,7 +2,7 @@ package it.marketplace.microservices.controller.user
 
 import io.swagger.v3.oas.annotations.tags.Tag
 import it.marketplace.microservices.common.resource.UserResource
-import it.marketplace.microservices.config.mapper.UserMapper
+import it.marketplace.microservices.common.resource.toDto
 import it.marketplace.microservices.service.UserService
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.BindingResult
@@ -22,14 +22,13 @@ class PostUserController(
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.allErrors)
         }
-        service.save(UserMapper.toDto(userResource))
+        service.save(userResource.toDto())
         return ResponseEntity.ok(mapOf("message" to "User added!"))
     }
 
     @PostMapping("/add-all")
     fun saveAll(@RequestBody resources: List<UserResource>): ResponseEntity<Map<String, String>> {
-        val dtos = resources.map { UserMapper.toDto(it) }
-        service.saveAll(dtos)
+        service.saveAll(resources.map { it.toDto() })
         return ResponseEntity.ok(mapOf("message" to "Users added!"))
     }
 }

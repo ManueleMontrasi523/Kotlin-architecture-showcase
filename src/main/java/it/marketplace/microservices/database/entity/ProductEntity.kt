@@ -1,5 +1,6 @@
 package it.marketplace.microservices.database.entity
 
+import it.marketplace.microservices.common.dto.ProductDto
 import it.marketplace.microservices.common.enums.CategoryEnum
 import jakarta.persistence.*
 import org.springframework.format.annotation.DateTimeFormat
@@ -19,7 +20,7 @@ open class ProductEntity(
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_seq")
     @SequenceGenerator(name = "product_seq", sequenceName = "product_sequence", allocationSize = 1)
     @Column(name = "ID", updatable = false, nullable = false)
-    val id: Long? = null,
+    val id: Long,
 
     @Column(name = "PRODUCT_CODE", unique = true, nullable = false)
     var productCode: String,
@@ -49,3 +50,14 @@ open class ProductEntity(
     var tmsUpdate: LocalDateTime
 ) : Serializable
 
+fun ProductEntity.toDto() = ProductDto(
+    id = this.id,
+    productCode = this.productCode,
+    name = this.name,
+    description = this.description,
+    price = this.price,
+    supply = this.supply,
+    category = this.category,
+    creationDate = this.creationDate,
+    tmsUpdate = this.tmsUpdate
+)

@@ -1,9 +1,9 @@
 package it.marketplace.microservices.controller.paymentOrder
 
 import io.swagger.v3.oas.annotations.tags.Tag
+import it.marketplace.microservices.common.dto.toResource
 import it.marketplace.microservices.common.resource.PaymentOrderResource
 import it.marketplace.microservices.config.exception.ServiceException
-import it.marketplace.microservices.config.mapper.PaymentOrderMapper
 import it.marketplace.microservices.service.PaymentOrderService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -25,8 +25,7 @@ class GetPaymentOrderController(
      */
     @GetMapping("/get-by-user")
     fun find(@RequestParam("email") email: String): ResponseEntity<List<PaymentOrderResource?>?> {
-        val resources = service.findOrderByEmail(email).map { PaymentOrderMapper.toResource(it) }
-        return ResponseEntity.ok(resources)
+        return ResponseEntity.ok(service.findOrderByEmail(email).map { it.toResource() })
     }
 
     /**
@@ -36,8 +35,7 @@ class GetPaymentOrderController(
      */
     @GetMapping("/get-all")
     fun findAll(): ResponseEntity<List<PaymentOrderResource?>?> {
-        val resources = service.findAll().map { PaymentOrderMapper.toResource(it) }
-        return ResponseEntity.ok(resources)
+        return ResponseEntity.ok(service.findAll().map { it.toResource() })
     }
 }
 
