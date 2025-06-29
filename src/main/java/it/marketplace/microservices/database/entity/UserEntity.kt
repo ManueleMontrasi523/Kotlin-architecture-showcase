@@ -5,7 +5,6 @@ import it.marketplace.microservices.common.enums.RoleEnum
 import it.marketplace.microservices.common.enums.StatusUserEnum
 import jakarta.persistence.*
 import org.springframework.format.annotation.DateTimeFormat
-import java.io.Serializable
 import java.time.LocalDateTime
 
 /**
@@ -14,22 +13,22 @@ import java.time.LocalDateTime
  */
 @Entity
 @Table(name = "USERS")
-open class UserEntity(
+data class UserEntity(
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
     @SequenceGenerator(name = "user_seq", sequenceName = "user_sequence", allocationSize = 1)
     @Column(name = "ID", updatable = false, nullable = false)
-    val id: Long,
+    val id: Long? = null,
 
     @Column(name = "NAME", nullable = false)
-    var name: String?,
+    var name: String = "",
 
     @Column(name = "LASTNAME", nullable = false)
-    var lastname: String?,
+    var lastname: String = "",
 
     @Column(name = "EMAIL", unique = true, nullable = false)
-    var email: String?,
+    var email: String = "",
 
     @Column(name = "RESIDENCE_ADDRESS")
     var residenceAddress: String? = null,
@@ -39,21 +38,21 @@ open class UserEntity(
 
     @Enumerated(EnumType.STRING)
     @Column(name = "ROLE", nullable = false)
-    var role: RoleEnum,
+    var role: RoleEnum = RoleEnum.CLIENT,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS", nullable = false)
-    var status: StatusUserEnum,
+    var status: StatusUserEnum = StatusUserEnum.ACTIVE,
 
     @DateTimeFormat
     @Column(name = "TMS_SUBSCRIPTION_DATE", nullable = false)
-    var tmsSubscriptionDate: LocalDateTime,
+    var tmsSubscriptionDate: LocalDateTime = LocalDateTime.now(),
 
     @DateTimeFormat
     @Column(name = "TMS_UPDATE", nullable = false)
-    var tmsUpdate: LocalDateTime
+    var tmsUpdate: LocalDateTime = LocalDateTime.now()
 
-) : Serializable
+)
 
 fun UserEntity.toDto() = UserDto(
     id = this.id,

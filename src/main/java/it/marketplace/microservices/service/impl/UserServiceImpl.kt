@@ -29,18 +29,17 @@ class UserServiceImpl(
     override fun save(dto: UserDto) {
         try {
             val entityOld = repository.findByEmailIgnoreCase(dto.email)
-            if (entityOld.email != null) throw ServiceException(
+            if (entityOld != null) throw ServiceException(
                 ErrorCode.DATA_ALREADY_PRESENT,
                 "Email already registered"
             )
 
-            val entity = dto.toEntity()
-            entity.role = RoleEnum.CLIENT
-            entity.status = StatusUserEnum.ACTIVE
-            entity.tmsSubscriptionDate = dto.tmsSubscriptionDate
-            entity.tmsUpdate = LocalDateTime.now()
+            dto.role = RoleEnum.CLIENT
+            dto.status = StatusUserEnum.ACTIVE
+            dto.tmsSubscriptionDate = LocalDateTime.now()
+            dto.tmsUpdate = LocalDateTime.now()
 
-            repository.save(entity)
+            repository.save(dto.toEntity())
         } catch (e: ServiceException) {
             logger.error("ERROR in the class " + this::class.java.name + " with error ${e.fillInStackTrace()}")
             throw ServiceException(ErrorCode.GENERIC_ERROR, e.message)
@@ -56,12 +55,11 @@ class UserServiceImpl(
         try {
             val now = LocalDateTime.now()
             val entities = dtos.map { dto ->
-                val entity = dto.toEntity()
-                entity.role = RoleEnum.CLIENT
-                entity.status = StatusUserEnum.ACTIVE
-                entity.tmsSubscriptionDate = now
-                entity.tmsUpdate = now
-                entity
+                dto.role = RoleEnum.CLIENT
+                dto.status = StatusUserEnum.ACTIVE
+                dto.tmsSubscriptionDate = now
+                dto.tmsUpdate = now
+                dto.toEntity()
             }
             repository.saveAll(entities)
         } catch (e: ServiceException) {
@@ -79,8 +77,8 @@ class UserServiceImpl(
      * @return the matching UserDto
      * @throws ServiceException if the user is not found
      */
-    override fun findByEmail(email: String): UserDto {
-        return checkIfUserExist(email).toDto()
+    override fun findByEmail(email: String): UserDto? {
+        return checkIfUserExist(email)?.toDto()
     }
 
     /**
@@ -89,7 +87,7 @@ class UserServiceImpl(
      * @return the matching UserEntity
      * @throws ServiceException if the user is not found
      */
-    override fun findByEmailEntity(email: String?): UserEntity {
+    override fun findByEmailEntity(email: String?): UserEntity? {
         return checkIfUserExist(email)
     }
 
@@ -98,9 +96,22 @@ class UserServiceImpl(
      * @param status the status to filter users
      * @return a list of UserDto
      */
-    override fun findAll(status: StatusUserEnum): List<UserDto> {
-        val entities = repository.findAllByStatus(status)
+    override fun findByStatus(status: StatusUserEnum?): List<UserDto> {
+        var entities: List<UserEntity>
+        if (status == null) {
+            entities = repository.findAll()
+        } else {
+            entities = repository.findAllByStatus(status)
+        }
         return entities.map { it.toDto() }
+    }
+
+    /**
+     * Finds all users by status.
+     * @return a list of UserDto
+     */
+    override fun findAll(): List<UserDto> {
+        return repository.findAll().map { it.toDto() }
     }
 
 
@@ -111,7 +122,7 @@ class UserServiceImpl(
      */
     @Throws(ServiceException::class)
     override fun update(dto: UserDto) {
-        val entity = checkIfUserExist(dto.email)
+        val entity = checkIfUserExist(dto.email)!!
 
         copyNonNullProperties(dto, entity)
         repository.save(entity)
@@ -126,7 +137,7 @@ class UserServiceImpl(
     override fun deleteByEmail(email: String) {
         try {
             val entity = checkIfUserExist(email)
-            repository.deleteById(entity.id)
+            repository.deleteById(entity?.id)
         } catch (e: ServiceException) {
             throw ServiceException(ErrorCode.GENERIC_ERROR, e.message)
         }
@@ -151,7 +162,7 @@ class UserServiceImpl(
      * @throws ServiceException if the user is not found
      */
     @Throws(ServiceException::class)
-    private fun checkIfUserExist(email: String?): UserEntity {
+    private fun checkIfUserExist(email: String?): UserEntity? {
         val entity = repository.findByEmailIgnoreCase(email)
         if (Objects.isNull(entity)) throw ServiceException(
             ErrorCode.EMAIL_NOT_FOUND,
@@ -166,14 +177,15 @@ class UserServiceImpl(
      * If there are other nullable fields in the future, add them here.
      */
     private fun copyNonNullProperties(dto: UserDto, entity: UserEntity) {
-        entity.name.let { dto.name = it }
-        entity.lastname.let { dto.lastname = it }
-        entity.email.let { dto.email = it }
-        entity.residenceAddress.let { dto.residenceAddress = it }
-        entity.residenceCity.let { dto.residenceCity = it }
-        entity.role.let { dto.role = it }
-        entity.status.let { dto.status = it }
-        entity.tmsSubscriptionDate.let { dto.tmsSubscriptionDate = it }
+        dto.name?.takeIf { it.isNotBlank() }?.let { entity.name = it }
+        dto.lastname?.takeIf { it.isNotBlank() }?.let { entity.lastname = it }
+        dto.email?.takeIf { it.isNotBlank() }?.let { entity.email = it }
+        dto.residenceAddress?.takeIf { it.isNotBlank() }?.let { entity.residenceAddress = it }
+        dto.residenceCity?.takeIf { it.isNotBlank() }?.let { entity.residenceCity = it }
+        dto.role?.let { entity.role = it }
+        dto.status?.let { entity.status = it }
+        dto.tmsSubscriptionDate?.let { entity.tmsSubscriptionDate = it }
+
         entity.tmsUpdate = LocalDateTime.now()
     }
 }

@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema
 import it.marketplace.microservices.common.dto.UserDto
 import it.marketplace.microservices.common.enums.RoleEnum
 import it.marketplace.microservices.common.enums.StatusUserEnum
-import it.marketplace.microservices.database.entity.UserEntity
 import java.time.LocalDateTime
 
 /**
@@ -14,22 +13,22 @@ import java.time.LocalDateTime
 data class UserResource(
 
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
-    var id: Long,
+    var id: Long?,
 
-    var name: String?,
-    var lastname: String?,
-    var email: String?,
-    var residenceAddress: String?,
-    var residenceCity: String?,
+    var name: String,
+    var lastname: String,
+    var email: String,
+    var residenceAddress: String,
+    var residenceCity: String,
 
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
-    var status: StatusUserEnum,
+    var status: StatusUserEnum?,
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
-    var role: RoleEnum,
+    var role: RoleEnum?,
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
-    var tmsSubscriptionDate: LocalDateTime,
+    var tmsSubscriptionDate: LocalDateTime?,
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
-    var tmsUpdate: LocalDateTime
+    var tmsUpdate: LocalDateTime?
 
 )
 

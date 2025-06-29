@@ -31,7 +31,7 @@ interface UserService {
      * @throws ServiceException if the user is not found
      */
     @Throws(ServiceException::class)
-    fun findByEmail(email: String): UserDto
+    fun findByEmail(email: String): UserDto?
 
     /**
      * Finds a user entity by email.
@@ -40,7 +40,7 @@ interface UserService {
      * @throws ServiceException if the user is not found
      */
     @Throws(ServiceException::class)
-    fun findByEmailEntity(email: String?): UserEntity
+    fun findByEmailEntity(email: String?): UserEntity?
 
     /**
      * Finds all users by status.
@@ -49,7 +49,15 @@ interface UserService {
      * @throws ServiceException if an error occurs
      */
     @Throws(ServiceException::class)
-    fun findAll(status: StatusUserEnum): List<UserDto>
+    fun findByStatus(status: StatusUserEnum?): List<UserDto>
+
+    /**
+     * Finds all users by status.
+     * @return a list of UserDto
+     * @throws ServiceException if an error occurs
+     */
+    @Throws(ServiceException::class)
+    fun findAll(): List<UserDto>
 
     /**
      * Updates an existing user.

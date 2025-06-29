@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 class PostUserController(
     private val service: UserService
 ) {
+
     @PostMapping("/add")
     fun save(@RequestBody userResource: UserResource, bindingResult: BindingResult): ResponseEntity<Any> {
         if (bindingResult.hasErrors()) {

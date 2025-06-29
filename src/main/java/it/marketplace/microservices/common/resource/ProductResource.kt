@@ -13,19 +13,19 @@ import java.time.LocalDateTime
 data class ProductResource(
 
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
-    var id: Long,
+    var id: Long?,
 
-    var productCode: String?,
-    val name: String?,
-    var description: String?,
+    var productCode: String,
+    val name: String,
+    var description: String,
     var price: Double,
     var supply: BigDecimal,
-    var category: CategoryEnum?,
+    var category: CategoryEnum,
 
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
-    var creationDate: LocalDateTime,
+    var creationDate: LocalDateTime?,
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
-    var tmsUpdate: LocalDateTime
+    var tmsUpdate: LocalDateTime?
 )
 
 fun ProductResource.toDto() = ProductDto(

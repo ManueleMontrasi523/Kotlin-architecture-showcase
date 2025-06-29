@@ -12,16 +12,16 @@ import java.time.LocalDateTime
  */
 data class ProductDto(
 
-    var id: Long,
-    var productCode: String?,
-    var name: String?,
-    var description: String?,
+    var id: Long?,
+    var productCode: String,
+    var name: String,
+    var description: String,
     var price: Double,
     var supply: BigDecimal,
-    var category: CategoryEnum?,
+    var category: CategoryEnum,
 
-    var creationDate: LocalDateTime,
-    var tmsUpdate: LocalDateTime
+    var creationDate: LocalDateTime?,
+    var tmsUpdate: LocalDateTime?
 
 )
 
@@ -45,6 +45,6 @@ fun ProductDto.toEntity() = ProductEntity(
     price = price,
     supply = supply,
     category = category,
-    creationDate = creationDate,
-    tmsUpdate = tmsUpdate
+    creationDate = creationDate!!,
+    tmsUpdate = tmsUpdate!!
 )

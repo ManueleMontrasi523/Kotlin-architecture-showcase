@@ -27,20 +27,18 @@ class OrderServiceImpl @Autowired constructor(
 
     override fun save(dto: OrderDto) {
         checkOrderOpenByUser(dto.user.email)
-        val entity: OrderEntity = dto.toEntity()
-        val managedUser = userService.findByEmailEntity(dto.user.email)
-        entity.user = managedUser
+        dto.user = userService.findByEmailEntity(dto.user.email)!!.toDto()
         val orderCode = generateOrderCode()
         val now = LocalDateTime.now()
-        entity.orderCode = orderCode
-        entity.orderDate = now
-        entity.tmsUpdate = now
-        entity.productOrder.forEach { product ->
-            product.orderCode = entity.orderCode
+        dto.orderCode = orderCode
+        dto.orderDate = now
+        dto.tmsUpdate = now
+        dto.productOrder.forEach { product ->
+            product.orderCode = dto.orderCode
             product.creationDate = now
             product.tmsUpdate = now
         }
-        repository.save(entity)
+        repository.save(dto.toEntity())
         producer.sendMessageNewOrder(orderCode)
     }
 
@@ -53,8 +51,7 @@ class OrderServiceImpl @Autowired constructor(
             val now = LocalDateTime.now()
             val emails = dtos.map { it.user.email }
             emails.forEach { checkOrderOpenByUser(it) }
-            val entities = dtos.map { it.toEntity() }
-            entities.forEach { entity ->
+            dtos.forEach { entity ->
                 entity.orderCode = generateOrderCode()
                 entity.orderDate = now
                 entity.tmsUpdate = now
@@ -64,7 +61,7 @@ class OrderServiceImpl @Autowired constructor(
                     product.tmsUpdate = now
                 }
             }
-            repository.saveAll(entities)
+            repository.saveAll(dtos.map { it.toEntity() })
         } catch (e: ServiceException) {
             logger.error("ERROR in the class {} with error {}", this::class.java.name, e.fillInStackTrace())
             throw ServiceException(ErrorCode.GENERIC_ERROR, e.message)
@@ -84,7 +81,7 @@ class OrderServiceImpl @Autowired constructor(
     }
 
     override fun update(dto: OrderDto) {
-        val entity = checkIfOrderExist(dto.orderCode)
+        val entity = checkIfOrderExist(dto.orderCode!!)
         copyNonNullProperties(dto, entity)
         entity.tmsUpdate = LocalDateTime.now()
         repository.save(entity)
@@ -134,12 +131,12 @@ class OrderServiceImpl @Autowired constructor(
      * If there are other nullable fields in the future, add them here.
      */
     private fun copyNonNullProperties(dto: OrderDto, entity: OrderEntity) {
-        entity.orderCode = dto.orderCode
+        entity.orderCode = dto.orderCode!!
         entity.user = dto.user.toEntity()
         entity.productOrder = dto.productOrder.map { it.toEntity() }
         entity.status = dto.status
         dto.rejectReason?.let { entity.rejectReason = it }
-        entity.orderDate = dto.orderDate
-        entity.tmsUpdate = dto.tmsUpdate
+        entity.orderDate = dto.orderDate!!
+        entity.tmsUpdate = LocalDateTime.now()
     }
 }

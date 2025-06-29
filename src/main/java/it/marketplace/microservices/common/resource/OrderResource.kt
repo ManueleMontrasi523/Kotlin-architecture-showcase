@@ -13,17 +13,17 @@ import java.time.LocalDateTime
 data class OrderResource(
 
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
-    var id: Long,
-    var orderCode: String,
+    var id: Long?,
+    var orderCode: String? = null,
     var user: UserResource,
     var productOrder: List<ProductOrderResource>,
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     var rejectReason: String? = null,
     var status: StatusOrderEnum,
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
-    var orderDate: LocalDateTime,
+    var orderDate: LocalDateTime?,
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
-    val tmsUpdate: LocalDateTime
+    val tmsUpdate: LocalDateTime?
 
 )
 

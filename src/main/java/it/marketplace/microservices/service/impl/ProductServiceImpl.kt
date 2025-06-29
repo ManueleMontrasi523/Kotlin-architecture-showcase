@@ -25,31 +25,29 @@ open class ProductServiceImpl(
         try {
             val now = LocalDateTime.now()
             val entityOld = repository.findByProductCodeIgnoreCase(dto.productCode)
-            if (entityOld.productCode != null)
+            if (entityOld != null)
                 throw ServiceException(ErrorCode.DATA_ALREADY_PRESENT, "Product already registered")
-            val entity = dto.toEntity()
-            entity.creationDate = now
-            entity.tmsUpdate = now
-            repository.save(entity)
+            dto.creationDate = now
+            dto.tmsUpdate = now
+            repository.save(dto.toEntity())
         } catch (e: ServiceException) {
             logger.error("ERROR in the class " + this::class.java.name + " with error ${e.fillInStackTrace()}")
             throw ServiceException(ErrorCode.GENERIC_ERROR, e.message)
         }
     }
 
-    override fun saveAll(dto: List<ProductDto>) {
+    override fun saveAll(dtos: List<ProductDto>) {
         try {
             val now = LocalDateTime.now()
-            val productCodes = dto.map { it.productCode }.toList()
+            val productCodes = dtos.map { it.productCode }.toList()
             val entityOld = repository.findAllByProductCodeIn(productCodes)
             if (entityOld.isNotEmpty())
                 throw ServiceException(ErrorCode.DATA_ALREADY_PRESENT, "Products already registered")
-            val entities = dto.map { it.toEntity() }
-            entities.forEach { entity ->
-                entity.creationDate = now
-                entity.tmsUpdate = now
+            dtos.forEach { dto ->
+                dto.creationDate = now
+                dto.tmsUpdate = now
             }
-            repository.saveAll(entities)
+            repository.saveAll(dtos.map { it.toEntity() })
         } catch (e: ServiceException) {
             logger.error("ERROR in the class " + this::class.java.name + " with error ${e.fillInStackTrace()}")
             throw ServiceException(ErrorCode.GENERIC_ERROR, e.message)
@@ -61,7 +59,7 @@ open class ProductServiceImpl(
     }
 
     override fun findByCode(code: String): ProductDto {
-        return checkIfProductExist(code).toDto()
+        return checkIfProductExist(code)!!.toDto()
     }
 
     override fun findAll(): List<ProductDto> {
@@ -69,7 +67,7 @@ open class ProductServiceImpl(
     }
 
     override fun update(dto: ProductDto) {
-        val entity = checkIfProductExist(dto.productCode)
+        val entity = checkIfProductExist(dto.productCode)!!
         copyNonNullProperties(dto, entity)
         entity.tmsUpdate = LocalDateTime.now()
         repository.save(entity)
@@ -77,7 +75,7 @@ open class ProductServiceImpl(
 
     override fun deleteByCode(code: String) {
         try {
-            val entity = checkIfProductExist(code)
+            val entity = checkIfProductExist(code)!!
             repository.deleteById(entity.id)
         } catch (e: ServiceException) {
             throw ServiceException(ErrorCode.GENERIC_ERROR, e.message)
@@ -109,18 +107,19 @@ open class ProductServiceImpl(
         }.map { it.productCode.toString() }
     }
 
-    private fun checkIfProductExist(code: String?): ProductEntity {
+    private fun checkIfProductExist(code: String?): ProductEntity? {
         return repository.findByProductCodeIgnoreCase(code)
     }
 
     private fun copyNonNullProperties(dto: ProductDto, entity: ProductEntity) {
         dto.productCode.let { entity.productCode = it }
         dto.name.let { entity.name = it }
-        dto.description?.let { entity.description = it }
+        dto.description.let { entity.description = it }
         dto.price.let { entity.price = it }
         dto.supply.let { entity.supply = it }
         dto.category.let { entity.category = it }
-        dto.creationDate.let { entity.creationDate = it }
-        dto.tmsUpdate.let { entity.tmsUpdate = it }
+        dto.creationDate?.let { entity.creationDate = it }
+
+        entity.tmsUpdate = LocalDateTime.now()
     }
 }

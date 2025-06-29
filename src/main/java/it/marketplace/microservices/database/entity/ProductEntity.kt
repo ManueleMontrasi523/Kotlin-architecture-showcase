@@ -20,34 +20,34 @@ open class ProductEntity(
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_seq")
     @SequenceGenerator(name = "product_seq", sequenceName = "product_sequence", allocationSize = 1)
     @Column(name = "ID", updatable = false, nullable = false)
-    val id: Long,
+    val id: Long? = null,
 
     @Column(name = "PRODUCT_CODE", unique = true, nullable = false)
-    var productCode: String?,
+    var productCode: String = "",
 
     @Column(name = "NAME", nullable = false)
-    var name: String?,
+    var name: String = "",
 
     @Column(name = "DESCRIPTION")
-    var description: String? = null,
+    var description: String = "",
 
     @Column(name = "PRICE", nullable = false)
-    var price: Double,
+    var price: Double = 0.0,
 
     @Column(name = "SUPPLY", nullable = false)
-    var supply: BigDecimal,
+    var supply: BigDecimal = BigDecimal.ZERO,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "CATEGORY", nullable = false)
-    var category: CategoryEnum?,
+    var category: CategoryEnum = CategoryEnum.HOME,
 
     @DateTimeFormat
     @Column(name = "CREATION_DATE", nullable = false)
-    var creationDate: LocalDateTime,
+    var creationDate: LocalDateTime = LocalDateTime.now(),
 
     @DateTimeFormat
     @Column(name = "TMS_UPDATE", nullable = false)
-    var tmsUpdate: LocalDateTime
+    var tmsUpdate: LocalDateTime = LocalDateTime.now()
 ) : Serializable
 
 fun ProductEntity.toDto() = ProductDto(

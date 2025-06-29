@@ -11,17 +11,17 @@ import java.time.LocalDateTime
  */
 data class ProductOrderResource(
 
-    var id: Long,
-    var orderCode: String,
+    var id: Long?,
+    var orderCode: String?,
     var productCode: String,
     var quantity: BigDecimal,
     var unitPrice: Double,
     var total: Double,
 
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
-    var creationDate: LocalDateTime,
+    var creationDate: LocalDateTime?,
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
-    var tmsUpdate: LocalDateTime
+    var tmsUpdate: LocalDateTime?
 
 )
 

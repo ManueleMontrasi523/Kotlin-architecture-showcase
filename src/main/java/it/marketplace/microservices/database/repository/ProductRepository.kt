@@ -16,7 +16,7 @@ interface ProductRepository : JpaRepository<ProductEntity, Long> {
      * @param productCode the product code
      * @return the matching ProductEntity, or null if not found
      */
-    fun findByProductCodeIgnoreCase(productCode: String?): ProductEntity
+    fun findByProductCodeIgnoreCase(productCode: String?): ProductEntity?
 
     /**
      * Finds all products by a list of product codes.

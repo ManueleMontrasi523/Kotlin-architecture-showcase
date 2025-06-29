@@ -54,7 +54,7 @@ class UserValidatorTest: BaseTest() {
     fun shouldRejectIfNameIsMissing() {
         // Arrange
         val user = UserResource(
-            name = null,
+            name = "",
             lastname = "Doe",
             email = "John@gmail.com",
             id = 1L,
@@ -78,7 +78,7 @@ class UserValidatorTest: BaseTest() {
         // Arrange
         val user = UserResource(
             name = "John",
-            lastname = null,
+            lastname = "",
             email = "John@gmail.com",
             id = 1L,
             residenceAddress = "Via Roma 1",
@@ -102,7 +102,7 @@ class UserValidatorTest: BaseTest() {
         val user = UserResource(
             name = "John",
             lastname = "Doe",
-            email = null,
+            email = "",
             id = 1L,
             residenceAddress = "Via Roma 1",
             residenceCity = "Rome",

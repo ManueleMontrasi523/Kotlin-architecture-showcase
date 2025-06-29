@@ -14,7 +14,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 
-class ProductValidatorTest: BaseTest() {
+class ProductValidatorTest : BaseTest() {
     private lateinit var validator: ProductValidator
 
     @BeforeEach
@@ -62,7 +62,7 @@ class ProductValidatorTest: BaseTest() {
             tmsUpdate = LocalDateTime.now(),
             id = 1L,
             description = "This is a high-end laptop.",
-            name = null // Name is missing
+            name = ""
         )
         val errors: Errors = BeanPropertyBindingResult(product, "product")
         // Act
@@ -84,7 +84,7 @@ class ProductValidatorTest: BaseTest() {
             creationDate = LocalDateTime.now(),
             tmsUpdate = LocalDateTime.now(),
             id = 1L,
-            productCode = null, // ProductCode is missing
+            productCode = "null", // ProductCode is missing
             description = "This is a high-end laptop."
         )
 
@@ -94,29 +94,6 @@ class ProductValidatorTest: BaseTest() {
         // Assert
         assertTrue(errors.hasErrors())
         assertEquals("ProductCode is mandatory!", errors.allErrors[0].defaultMessage)
-    }
-
-    @Test
-    fun shouldRejectIfCategoryIsInvalid() {
-        // Arrange
-        val product = ProductResource(
-            name = "Laptop",
-            productCode = "PROD123",
-            // Invalid category (null)
-            category = null,
-            supply = BigDecimal.TEN,
-            price = 999.99,
-            creationDate = LocalDateTime.now(),
-            tmsUpdate = LocalDateTime.now(),
-            id = 1L,
-            description = "This is a high-end laptop."
-        )
-        val errors: Errors = BeanPropertyBindingResult(product, "product")
-        // Act
-        validator.validate(product, errors)
-        // Assert
-        assertTrue(errors.hasErrors())
-        assertEquals("Category is mandatory!", errors.allErrors[0].defaultMessage)
     }
 
     @Test

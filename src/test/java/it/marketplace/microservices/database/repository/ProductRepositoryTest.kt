@@ -33,7 +33,7 @@ open class ProductRepositoryTest : BaseTest() {
         entity.tmsUpdate = (LocalDateTime.now())
         repository.save(entity)
         // Act
-        val found: ProductEntity = repository.findByProductCodeIgnoreCase("prod1")
+        val found: ProductEntity? = repository.findByProductCodeIgnoreCase("prod1")
         // Assert
         assertNotNull(found)
         assertEquals("PROD1", found.productCode)

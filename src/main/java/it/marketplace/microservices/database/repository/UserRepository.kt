@@ -20,7 +20,7 @@ interface UserRepository : JpaRepository<UserEntity, Long> {
      * @param email the user's email
      * @return the matching UserEntity, or null if not found
      */
-    fun findByEmailIgnoreCase(email: String?): UserEntity
+    fun findByEmailIgnoreCase(email: String?): UserEntity?
 
     /**
      * Finds all users by a list of emails, ignoring case.

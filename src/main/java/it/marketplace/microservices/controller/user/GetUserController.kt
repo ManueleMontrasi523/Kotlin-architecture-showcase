@@ -19,12 +19,12 @@ class GetUserController(
 ) {
     @GetMapping("/get-by-email")
     fun find(@RequestParam("email") email: String): ResponseEntity<UserResource> {
-        return ResponseEntity.ok(service.findByEmail(email).toResource())
+        return ResponseEntity.ok(service.findByEmail(email)?.toResource())
     }
 
     @GetMapping("/get-all")
-    fun findAll(@RequestParam("status") status: StatusUserEnum): ResponseEntity<List<UserResource>> {
-        return ResponseEntity.ok(service.findAll(status).map { it.toResource() })
+    fun findAll(@RequestParam("status") status: StatusUserEnum?): ResponseEntity<List<UserResource>> {
+        return ResponseEntity.ok(service.findByStatus(status).map { it.toResource() })
     }
 }
 

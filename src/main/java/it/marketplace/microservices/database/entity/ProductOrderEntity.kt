@@ -17,28 +17,28 @@ open class ProductOrderEntity(
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_order_seq")
     @SequenceGenerator(name = "product_order_seq", sequenceName = "product_order_sequence", allocationSize = 1)
     @Column(name = "ID", updatable = false, nullable = false)
-    val id: Long,
+    val id: Long? = null,
 
     @Column(name = "ORDER_CODE", nullable = false)
-    var orderCode: String,
+    var orderCode: String = "",
 
     @Column(name = "PRODUCT_CODE", nullable = false)
-    var productCode: String,
+    var productCode: String = "",
 
     @Column(name = "QUANTITY", nullable = false)
-    var quantity: BigDecimal,
+    var quantity: BigDecimal = BigDecimal.ZERO,
 
     @Column(name = "UNIT_PRICE", nullable = false)
-    var unitPrice: Double,
+    var unitPrice: Double = 0.0,
 
     @Column(name = "TOTAL", nullable = false)
-    var total: Double,
+    var total: Double = 0.0,
 
     @Column(name = "CREATION_DATE")
-    var creationDate: LocalDateTime,
+    var creationDate: LocalDateTime = LocalDateTime.now(),
 
     @Column(name = "TMS_UPDATE")
-    var tmsUpdate: LocalDateTime
+    var tmsUpdate: LocalDateTime = LocalDateTime.now(),
 ) : Serializable
 
 fun ProductOrderEntity.toProductOrderDto() = ProductOrderDto(

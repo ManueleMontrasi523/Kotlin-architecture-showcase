@@ -38,7 +38,7 @@ open class UserRepositoryTest : BaseTest() {
         entity.status = (StatusUserEnum.ACTIVE)
         repository.save(entity)
         // Act
-        val found: UserEntity = repository.findByEmailIgnoreCase("TEST@email.com")
+        val found: UserEntity? = repository.findByEmailIgnoreCase("TEST@email.com")
         // Assert
         assertNotNull(found)
         assertEquals("test@email.com", found.email)
@@ -98,7 +98,7 @@ open class UserRepositoryTest : BaseTest() {
         repository.statusRelationshipsByEmail("user4@email.com", StatusUserEnum.DISABLED)
         entityManager.flush()
         entityManager.clear()
-        val updated: UserEntity = repository.findByEmailIgnoreCase("user4@email.com")
+        val updated: UserEntity? = repository.findByEmailIgnoreCase("user4@email.com")
         // Assert
         assertNotNull(updated)
         assertEquals(StatusUserEnum.DISABLED, updated.status)

@@ -26,7 +26,7 @@ interface PaymentOrderRepository : JpaRepository<PaymentOrderEntity, Long> {
      * @param orderCodes the list of order codes
      * @return a list of PaymentOrderEntity
      */
-    fun findByOrderCodeIn(orderCodes: List<String>): List<PaymentOrderEntity>
+    fun findByOrderCodeIn(orderCodes: List<String?>): List<PaymentOrderEntity>
 
     /**
      * Finds all payment orders by status.

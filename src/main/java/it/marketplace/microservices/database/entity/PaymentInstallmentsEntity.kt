@@ -26,21 +26,21 @@ open class PaymentInstallmentsEntity(
     val id: Long? = null,
 
     @Column(name = "REFERENCE", nullable = false)
-    var reference: String,
+    var reference: String = "",
 
     @Column(name = "ORDER_CODE", nullable = false)
-    var orderCode: String,
+    var orderCode: String = "",
 
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS", nullable = false)
-    var status: StatusOrderEnum,
+    var status: StatusOrderEnum = StatusOrderEnum.CREATED,
 
     @Column(name = "DEBIT", nullable = false)
-    var debit: Double,
+    var debit: Double  = 0.0,
 
     @DateTimeFormat
     @Column(name = "TMS_UPDATE", nullable = false)
-    var tmsUpdate: LocalDateTime
+    var tmsUpdate: LocalDateTime  = LocalDateTime.now(),
 ) : Serializable
 
 fun PaymentInstallmentsEntity.toDto() = PaymentInstallmentsDto(

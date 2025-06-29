@@ -54,7 +54,7 @@ class GetUserControllerTest : BaseTest() {
         val status = StatusUserEnum.ACTIVE
         val dto = mockUserDto()
         val dtos = listOf(dto)
-        Mockito.`when`(service.findAll(status)).thenReturn(dtos)
+        Mockito.`when`(service.findByStatus(status)).thenReturn(dtos)
         val expected = listOf(dto.toResource())
 
         // Act
@@ -63,6 +63,6 @@ class GetUserControllerTest : BaseTest() {
         // Assert
         assertEquals(200, response.statusCode.value())
         assertEquals(expected, response.getBody())
-        Mockito.verify(service).findAll(status)
+        Mockito.verify(service).findByStatus(status)
     }
 }

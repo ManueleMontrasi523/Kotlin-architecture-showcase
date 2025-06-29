@@ -11,25 +11,25 @@ import java.time.LocalDateTime
  * Contains user details such as name, email, address, status, role, and subscription date.
  */
 data class UserDto(
-    var id: Long,
+    var id: Long?,
     var name: String?,
     var lastname: String?,
     var email: String?,
     var residenceAddress: String?,
     var residenceCity: String?,
-    var status: StatusUserEnum,
-    var role: RoleEnum,
-    var tmsSubscriptionDate: LocalDateTime,
-    var tmsUpdate: LocalDateTime
+    var status: StatusUserEnum?,
+    var role: RoleEnum?,
+    var tmsSubscriptionDate: LocalDateTime?,
+    var tmsUpdate: LocalDateTime?
 )
 
 fun UserDto.toResource() = UserResource(
     id = this.id,
-    name = this.name,
-    lastname = this.lastname,
-    email = this.email,
-    residenceAddress = this.residenceAddress,
-    residenceCity = this.residenceCity,
+    name = this.name!!,
+    lastname = this.lastname!!,
+    email = this.email!!,
+    residenceAddress = this.residenceAddress!!,
+    residenceCity = this.residenceCity!!,
     status = this.status,
     role = this.role,
     tmsSubscriptionDate = this.tmsSubscriptionDate,
@@ -38,13 +38,13 @@ fun UserDto.toResource() = UserResource(
 
 fun UserDto.toEntity() = UserEntity(
     id = this.id,
-    name = this.name,
-    lastname = this.lastname,
-    email = this.email,
+    name = this.name!!,
+    lastname = this.lastname!!,
+    email = this.email!!,
     residenceAddress = this.residenceAddress,
     residenceCity = this.residenceCity,
-    status = this.status,
-    role = this.role,
-    tmsSubscriptionDate = this.tmsSubscriptionDate,
-    tmsUpdate = this.tmsUpdate
+    status = this.status!!,
+    role = this.role!!,
+    tmsSubscriptionDate = this.tmsSubscriptionDate!!,
+    tmsUpdate = this.tmsUpdate!!
 )

@@ -24,7 +24,7 @@ class PaymentOrderServiceImpl @Autowired constructor(
 
     override fun findOrderByEmail(email: String): List<PaymentOrderDto> {
         val orders: List<OrderDto> = orderService.findByUserMail(email)
-        val orderCodes = if (orders.isNotEmpty()) orders.map { it.orderCode } else null
+        val orderCodes = if (orders.isNotEmpty()) orders.map { it.orderCode }.toList() else null
         return if (orderCodes != null) {
             repository.findByOrderCodeIn(orderCodes).map { it.toDto() }
         } else {

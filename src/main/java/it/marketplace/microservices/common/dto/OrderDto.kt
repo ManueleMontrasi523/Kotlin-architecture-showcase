@@ -10,14 +10,14 @@ import java.time.LocalDateTime
  * Contains information about the order, user, products, status, and relevant dates.
  */
 data class OrderDto(
-    var id: Long,
-    var orderCode: String,
+    var id: Long?,
+    var orderCode: String?,
     var user: UserDto,
     var productOrder: List<ProductOrderDto>,
     var status: StatusOrderEnum,
     var rejectReason: String?,
-    var orderDate: LocalDateTime,
-    var tmsUpdate: LocalDateTime
+    var orderDate: LocalDateTime?,
+    var tmsUpdate: LocalDateTime?
 )
 
 fun OrderDto.toResource() = OrderResource(
@@ -33,11 +33,11 @@ fun OrderDto.toResource() = OrderResource(
 
 fun OrderDto.toEntity() = OrderEntity(
     id = this.id,
-    orderCode = this.orderCode,
+    orderCode = this.orderCode!!,
     user = this.user.toEntity(),
     productOrder = this.productOrder.map { it.toEntity() },
     status = this.status,
     rejectReason = this.rejectReason,
-    orderDate = this.orderDate,
-    tmsUpdate = this.tmsUpdate
+    orderDate = this.orderDate!!,
+    tmsUpdate = this.tmsUpdate!!
 )

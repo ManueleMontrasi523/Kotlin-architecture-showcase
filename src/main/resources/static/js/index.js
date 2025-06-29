@@ -103,12 +103,12 @@ function buildTable(data, entity, orderColumn) {
                         link.textContent = item.orderCode || '';
                         link.addEventListener('click', (e) => {
                             e.preventDefault();
-                            toggleProduceOrders(row, item.productResource);
+                            toggleProduceOrders(row, item.productOrder);
                         });
                         td.appendChild(link);
                         break;
                     case 'Email':
-                        value = item.userResource?.email || '';
+                        value = item.user?.email || '';
                         break;
                     case 'Status':
                         value = item.status || '';
@@ -382,7 +382,7 @@ function submitOrder() {
         orderMessage.textContent = 'Select a user';
         return;
     }
-    const userResource = JSON.parse(selectedUserJson);
+    const user = JSON.parse(selectedUserJson);
 
     const productEntries = productsContainer.querySelectorAll('.product-entry');
     if (productEntries.length === 0) {
@@ -391,7 +391,7 @@ function submitOrder() {
         return;
     }
 
-    const productResource = [];
+    const productOrder = [];
     for (const entry of productEntries) {
         const inputsText = entry.querySelectorAll('input[type="text"]');
         const inputsNumber = entry.querySelectorAll('input[type="number"]');
@@ -411,7 +411,7 @@ function submitOrder() {
             return;
         }
 
-        productResource.push({
+        productOrder.push({
             name,
             price,
             quantity,
@@ -422,8 +422,8 @@ function submitOrder() {
     }
 
     const payload = {
-        userResource,
-        productResource,
+        user,
+        productOrder,
         status: "CREATED"
     };
 
