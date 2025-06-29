@@ -1,5 +1,6 @@
 import it.marketplace.microservices.common.enums.StatusOrderEnum
 import it.marketplace.microservices.common.resource.PaymentInstallmentsResource
+import it.marketplace.microservices.database.entity.PaymentInstallmentsEntity
 import java.time.LocalDateTime
 
 /**

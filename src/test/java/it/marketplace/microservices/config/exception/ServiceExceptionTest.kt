@@ -1,12 +1,13 @@
 package it.marketplace.microservices.config.exception
 
 import it.marketplace.microservices.common.enums.ErrorCode
+import it.marketplace.microservices.utils.BaseTest
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
-class ServiceExceptionTest {
+class ServiceExceptionTest: BaseTest() {
     @Test
     fun shouldCreateServiceExceptionWithErrorCodeAndMessage() {
         // Arrange

@@ -1,41 +1,42 @@
-package it.marketplace.microservices.service;
+package it.marketplace.microservices.service
 
-import it.marketplace.microservices.common.dto.UserDto;
-import it.marketplace.microservices.database.repository.UserRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import it.marketplace.microservices.common.dto.UserDto
+import it.marketplace.microservices.common.dto.toEntity
+import it.marketplace.microservices.database.repository.UserRepository
+import it.marketplace.microservices.service.impl.UserServiceImpl
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
+import kotlin.test.assertNotNull
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-class UserServiceTest {
-
+class UserServiceTest : BaseTest() {
     @Mock
-    private UserRepository repository;
+    private val repository: UserRepository = mock()
 
     @InjectMocks
-    private UserServiceImpl service;
+    private val service: UserServiceImpl = mock()
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
     }
 
     @Test
-    void shouldFindByEmail_WhenUserExists_ThenArrangeActAssert() {
+    fun shouldFindByEmail_WhenUserExists_ThenArrangeActAssert() {
         // Arrange
-        String email = "test@email.com";
-        UserEntity entity = new UserEntity();
-        when(repository.findByEmailIgnoreCase(email)).thenReturn(entity);
+        val email = "test@email.com"
+        val entity = mockUserDto().toEntity()
+        Mockito.`when`(repository.findByEmailIgnoreCase(email)).thenReturn(entity)
         // Act
-        UserDto result = service.findByEmail(email);
+        val result: UserDto? = service.findByEmail(email)
         // Assert
-        assertNotNull(result);
-        verify(repository).findByEmailIgnoreCase(email);
+        assertNotNull(result)
+        Mockito.verify(repository).findByEmailIgnoreCase(email)
     }
 }
 

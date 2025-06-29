@@ -1,49 +1,48 @@
-package it.marketplace.microservices.controller.paymentInstallments;
+package it.marketplace.microservices.controller.paymentInstallments
 
-import it.marketplace.microservices.common.resource.PaymentInstallmentsResource;
-import it.marketplace.microservices.config.exception.ServiceException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
+import it.marketplace.microservices.common.resource.PaymentInstallmentsResource
+import it.marketplace.microservices.config.exception.ServiceException
+import it.marketplace.microservices.service.PaymentInstallmentsService
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
+import org.springframework.http.ResponseEntity
+import toResource
+import kotlin.test.assertEquals
 
-
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
-
-class GetPaymentInstallmentsControllerTest {
-
+class GetPaymentInstallmentsControllerTest : BaseTest() {
     @Mock
-    private PaymentInstallmentsService service;
+    private val service: PaymentInstallmentsService = mock()
 
     @InjectMocks
-    private GetPaymentInstallmentsController controller;
+    private val controller: GetPaymentInstallmentsController = mock()
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
     }
 
     @Test
-    void shouldReturnInstallments_WhenFindByOrderCode_ThenArrangeActAssert() throws ServiceException {
+    @Throws(ServiceException::class)
+    fun shouldReturnInstallments_WhenFindByOrderCode_ThenArrangeActAssert() {
         // Arrange
-        String orderCode = "ORD123";
-        PaymentInstallmentsDto dto = new PaymentInstallmentsDto();
-        List<PaymentInstallmentsDto> dtos = List.of(dto);
-        when(service.findAllByCode(orderCode)).thenReturn(dtos);
-        List<PaymentInstallmentsResource> expected = dtos.stream().map(PaymentInstallmentsMapper::toResource).toList();
+        val orderCode = "ORD123"
+        val dtos = listOf(mockPaymentInstallmentsDto())
+        val expected = listOf(mockPaymentInstallmentsDto().toResource())
+        Mockito.`when`(service.findAllByCode(orderCode)).thenReturn(dtos)
 
         // Act
-        ResponseEntity<List<PaymentInstallmentsResource>> response = controller.find(orderCode);
+        val response: ResponseEntity<List<PaymentInstallmentsResource?>?> = controller.find(orderCode)
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals(expected, response.getBody());
-        verify(service).findAllByCode(orderCode);
+        assertEquals(200, response.statusCode.value())
+        assertEquals(expected, response.getBody())
+        Mockito.verify(service).findAllByCode(orderCode)
     }
 }
-

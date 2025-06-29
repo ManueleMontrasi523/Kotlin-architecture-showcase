@@ -1,12 +1,13 @@
 package it.marketplace.microservices.common.dto
 
 import it.marketplace.microservices.common.enums.CategoryEnum
+import it.marketplace.microservices.utils.BaseTest
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import kotlin.test.assertEquals
 
-class ProductDtoTest {
+class ProductDtoTest: BaseTest() {
     @Test
     fun shouldCreateProductDtoWithAllFields() {
         // Arrange

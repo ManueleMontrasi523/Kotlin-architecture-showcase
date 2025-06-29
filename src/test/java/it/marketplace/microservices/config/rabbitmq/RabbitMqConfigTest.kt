@@ -1,12 +1,13 @@
 package it.marketplace.microservices.config.rabbitmq
 
+import it.marketplace.microservices.utils.BaseTest
 import org.junit.jupiter.api.Test
 import org.springframework.amqp.core.Binding
 import org.springframework.amqp.core.Queue
 import org.springframework.amqp.core.TopicExchange
 import kotlin.test.assertEquals
 
-class RabbitMqConfigTest {
+class RabbitMqConfigTest: BaseTest() {
     private val config = RabbitMqConfig()
 
     @Test

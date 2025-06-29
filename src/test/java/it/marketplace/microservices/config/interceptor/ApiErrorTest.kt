@@ -1,10 +1,11 @@
 package it.marketplace.microservices.config.interceptor
 
 import it.marketplace.microservices.common.enums.ErrorCode
+import it.marketplace.microservices.utils.BaseTest
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class ApiErrorTest {
+class ApiErrorTest: BaseTest() {
 
     @Test
     fun shouldCreateApiErrorWithAllFields() {

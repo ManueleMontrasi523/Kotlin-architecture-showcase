@@ -1,88 +1,95 @@
-package it.marketplace.microservices.database.repository;
+package it.marketplace.microservices.database.repository
 
-import it.marketplace.microservices.common.enums.StatusOrderEnum;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import java.time.LocalDateTime;
-
-
-import static org.junit.jupiter.api.Assertions.*;
+import it.marketplace.microservices.common.enums.StatusOrderEnum
+import it.marketplace.microservices.database.entity.PaymentOrderEntity
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.*
+import org.mockito.Mockito.mock
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import java.time.LocalDateTime
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 @DataJpaTest
-class PaymentOrderRepositoryTest {
+open class PaymentOrderRepositoryTest : BaseTest() {
 
     @Autowired
-    private PaymentOrderRepository repository;
+    private val repository: PaymentOrderRepository = mock()
 
     @Test
-    void shouldFindByOrderCodeIgnoreCase_ArrangeActAssert() {
+    fun shouldFindByOrderCodeIgnoreCase_ArrangeActAssert() {
         // Arrange
-        PaymentOrderEntity entity = new PaymentOrderEntity();
-        entity.setOrderCode("ORD1");
-        entity.setStatus(StatusOrderEnum.CREATED);
-        entity.setDebit(0.59);
-        entity.setOrderDate(LocalDateTime.now());
-        entity.setTmsUpdate(LocalDateTime.now());
-        repository.save(entity);
+        val now = LocalDateTime.now()
+        val entity = mockPaymentOrderEntity()
+        entity.orderCode = ("ORD1")
+        entity.status = (StatusOrderEnum.CREATED)
+        entity.debit = (0.59)
+        entity.orderDate = (LocalDateTime.now())
+        entity.tmsUpdate = (LocalDateTime.now())
+        repository!!.save<PaymentOrderEntity>(entity)
         // Act
-        PaymentOrderEntity found = repository.findByOrderCodeIgnoreCase("ord1");
+        val found: PaymentOrderEntity = repository.findByOrderCodeIgnoreCase("ord1")
         // Assert
-        assertNotNull(found);
-        assertEquals("ORD1", found.getOrderCode());
+        assertNotNull(found)
+        assertEquals("ORD1", found.orderCode)
     }
 
     @Test
-    void shouldFindByOrderCodeIn_ArrangeActAssert() {
+    fun shouldFindByOrderCodeIn_ArrangeActAssert() {
         // Arrange
-        PaymentOrderEntity entity = new PaymentOrderEntity();
-        entity.setOrderCode("ORD2");
-        entity.setStatus(StatusOrderEnum.PAID);
-        entity.setDebit(0.59);
-        entity.setOrderDate(LocalDateTime.now());
-        entity.setTmsUpdate(LocalDateTime.now());
-        repository.save(entity);
+        val now = LocalDateTime.now()
+        val entity = mockPaymentOrderEntity()
+        entity.orderCode = ("ORD2")
+        entity.status = (StatusOrderEnum.PAID)
+        entity.debit = (0.59)
+        entity.orderDate = (LocalDateTime.now())
+        entity.tmsUpdate = (LocalDateTime.now())
+        repository!!.save<PaymentOrderEntity>(entity)
         // Act
-        List<PaymentOrderEntity> found = repository.findByOrderCodeIn(List.of("ORD2"));
+        val found: List<PaymentOrderEntity?> = repository.findByOrderCodeIn(listOf("ORD2"))
         // Assert
-        assertFalse(found.isEmpty());
-        assertEquals("ORD2", found.get(0).getOrderCode());
+        assertFalse(found.isEmpty())
+        assertEquals("ORD2", found[0]?.orderCode)
     }
 
     @Test
-    void shouldFindByStatus_ArrangeActAssert() {
+    fun shouldFindByStatus_ArrangeActAssert() {
         // Arrange
-        PaymentOrderEntity entity = new PaymentOrderEntity();
-        entity.setOrderCode("ORD3");
-        entity.setStatus(StatusOrderEnum.CREATED);
-        entity.setDebit(0.59);
-        entity.setOrderDate(LocalDateTime.now());
-        entity.setTmsUpdate(LocalDateTime.now());
-        repository.save(entity);
+        val now = LocalDateTime.now()
+        val entity = mockPaymentOrderEntity()
+        entity.orderCode = ("ORD3")
+        entity.status = (StatusOrderEnum.CREATED)
+        entity.debit = (0.59)
+        entity.orderDate = (LocalDateTime.now())
+        entity.tmsUpdate = (LocalDateTime.now())
+        repository!!.save<PaymentOrderEntity>(entity)
         // Act
-        List<PaymentOrderEntity> found = repository.findByStatus(StatusOrderEnum.CREATED);
+        val found: List<PaymentOrderEntity?> = repository.findByStatus(StatusOrderEnum.CREATED)
         // Assert
-        assertFalse(found.isEmpty());
-        assertTrue(found.stream().anyMatch(e -> e.getOrderCode().equals("ORD3")));
+        assertFalse(found.isEmpty())
+        assertTrue(found.stream().anyMatch { e -> e?.orderCode.equals("ORD3") })
     }
 
     @Test
-    void shouldFindByOrderCodeAndStatus_ArrangeActAssert() {
+    fun shouldFindByOrderCodeAndStatus_ArrangeActAssert() {
         // Arrange
-        PaymentOrderEntity entity = new PaymentOrderEntity();
-        entity.setOrderCode("ORD4");
-        entity.setStatus(StatusOrderEnum.PAID);
-        entity.setDebit(0.59);
-        entity.setOrderDate(LocalDateTime.now());
-        entity.setTmsUpdate(LocalDateTime.now());
-        repository.save(entity);
+        val now = LocalDateTime.now()
+        val entity = mockPaymentOrderEntity()
+        entity.orderCode = ("ORD4")
+        entity.status = (StatusOrderEnum.PAID)
+        entity.debit = (0.59)
+        entity.orderDate = (LocalDateTime.now())
+        entity.tmsUpdate = (LocalDateTime.now())
+        repository!!.save<PaymentOrderEntity>(entity)
         // Act
-        PaymentOrderEntity found = repository.findByOrderCodeAndStatus("ORD4", StatusOrderEnum.CREATED);
+        val found: PaymentOrderEntity = repository.findByOrderCodeAndStatus("ORD4", StatusOrderEnum.CREATED)
         // Assert
-        assertNotNull(found);
-        assertEquals("ORD4", found.getOrderCode());
-        assertEquals(StatusOrderEnum.PAID, found.getStatus());
+        assertNotNull(found)
+        assertEquals("ORD4", found.orderCode)
+        assertEquals(StatusOrderEnum.PAID, found.status)
     }
 }
 

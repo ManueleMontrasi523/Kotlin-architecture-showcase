@@ -1,53 +1,57 @@
-package it.marketplace.microservices.database.repository;
+package it.marketplace.microservices.database.repository
 
-import it.marketplace.microservices.common.enums.StatusOrderEnum;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import java.time.LocalDateTime;
-
-
-import static org.junit.jupiter.api.Assertions.*;
+import it.marketplace.microservices.common.enums.StatusOrderEnum
+import it.marketplace.microservices.database.entity.PaymentInstallmentsEntity
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.Test
+import org.mockito.Mockito.mock
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import java.time.LocalDateTime
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 
 @DataJpaTest
-class PaymentInstallmentsRepositoryTest {
+open class PaymentInstallmentsRepositoryTest : BaseTest() {
 
     @Autowired
-    private PaymentInstallmentsRepository repository;
+    private val repository: PaymentInstallmentsRepository = mock()
 
     @Test
-    void shouldFindByOrderCode_ArrangeActAssert() {
+    fun shouldFindByOrderCode_ArrangeActAssert() {
         // Arrange
-        PaymentInstallmentsEntity entity = new PaymentInstallmentsEntity();
-        entity.setOrderCode("ORD1");
-        entity.setStatus(StatusOrderEnum.CREATED);
-        entity.setDebit(0.59);
-        entity.setReference("ORDER");
-        entity.setTmsUpdate(LocalDateTime.now());
-        repository.save(entity);
+        val now = LocalDateTime.now()
+        val entity = mockPaymentInstallmentsEntity()
+        entity.orderCode = "ORD1"
+        entity.status = StatusOrderEnum.CREATED
+        entity.debit = 0.59
+        entity.reference = "ORDER"
+        entity.tmsUpdate = LocalDateTime.now()
+        repository.save(entity)
         // Act
-        List<PaymentInstallmentsEntity> found = repository.findByOrderCode("ORD1");
+        val found: List<PaymentInstallmentsEntity?> = repository.findByOrderCode("ORD1")
         // Assert
-        assertFalse(found.isEmpty());
-        assertEquals("ORD1", found.get(0).getOrderCode());
+        assertFalse(found.isEmpty())
+        assertEquals("ORD1", found[0]?.orderCode)
     }
 
     @Test
-    void shouldFindByOrderCodeAndStatus_ArrangeActAssert() {
+    fun shouldFindByOrderCodeAndStatus_ArrangeActAssert() {
         // Arrange
-        PaymentInstallmentsEntity entity = new PaymentInstallmentsEntity();
-        entity.setOrderCode("ORD2");
-        entity.setStatus(StatusOrderEnum.PAID);
-        entity.setDebit(0.59);
-        entity.setReference("ORDER");
-        entity.setTmsUpdate(LocalDateTime.now());
-        repository.save(entity);
+        val now = LocalDateTime.now()
+        val entity = mockPaymentInstallmentsEntity()
+        entity.orderCode = "ORD2"
+        entity.status = StatusOrderEnum.PAID
+        entity.debit = 0.59
+        entity.reference = "ORDER"
+        entity.tmsUpdate = LocalDateTime.now()
+        repository.save(entity)
         // Act
-        List<PaymentInstallmentsEntity> found = repository.findByOrderCodeAndStatus("ORD2", StatusOrderEnum.PAID);
+        val found: List<PaymentInstallmentsEntity?> =
+            repository.findByOrderCodeAndStatus("ORD2", StatusOrderEnum.PAID)
         // Assert
-        assertFalse(found.isEmpty());
-        assertEquals(StatusOrderEnum.PAID, found.get(0).getStatus());
+        assertFalse(found.isEmpty())
+        assertEquals(StatusOrderEnum.PAID, found[0]?.status)
     }
 }
 

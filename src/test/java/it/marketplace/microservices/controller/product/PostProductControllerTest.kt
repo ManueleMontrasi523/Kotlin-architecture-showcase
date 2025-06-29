@@ -1,66 +1,64 @@
-package it.marketplace.microservices.controller.product;
+package it.marketplace.microservices.controller.product
 
-import it.marketplace.microservices.common.dto.ProductDto;
-import it.marketplace.microservices.common.resource.ProductResource;
-import it.marketplace.microservices.config.exception.ServiceException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
+import it.marketplace.microservices.common.dto.toResource
+import it.marketplace.microservices.config.exception.ServiceException
+import it.marketplace.microservices.service.ProductService
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
+import org.springframework.http.ResponseEntity
+import kotlin.test.assertEquals
 
-
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
-
-class PostProductControllerTest {
+class PostProductControllerTest : BaseTest() {
 
     @Mock
-    private ProductService service;
+    private val service: ProductService = mock()
 
     @InjectMocks
-    private PostProductController controller;
+    private val controller: PostProductController = mock()
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
     }
 
     @Test
-    void shouldAddProduct_WhenValidResource_ThenArrangeActAssert() throws ServiceException {
+    @Throws(ServiceException::class)
+    fun shouldAddProduct_WhenValidResource_ThenArrangeActAssert() {
         // Arrange
-        ProductResource resource = new ProductResource();
-        ProductDto dto = ProductMapper.toDto(resource);
-        doNothing().when(service).save(dto);
+        val dto = mockProductDto()
+        val resource = dto.toResource()
+        Mockito.doNothing().`when`(service).save(dto)
 
         // Act
-        ResponseEntity<Map<String, String>> response = controller.save(resource);
+        val response: ResponseEntity<Map<String, String>> = controller.save(resource)
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("Product added!", response.getBody().get("message"));
-        verify(service).save(dto);
+        assertEquals(200, response.statusCode.value())
+        assertEquals("Product added!", response.getBody()!!["message"])
+        Mockito.verify(service).save(dto)
     }
 
     @Test
-    void shouldAddAllProducts_WhenValidResources_ThenArrangeActAssert() throws ServiceException {
+    @Throws(ServiceException::class)
+    fun shouldAddAllProducts_WhenValidResources_ThenArrangeActAssert() {
         // Arrange
-        ProductResource resource = new ProductResource();
-        List<ProductResource> resources = List.of(resource);
-        List<ProductDto> dtos = resources.stream().map(ProductMapper::toDto).toList();
-        doNothing().when(service).saveAll(dtos);
+        val resource = mockProductDto().toResource()
+        val resources = listOf(resource)
+        val dtos = listOf(mockProductDto())
+        Mockito.doNothing().`when`(service).saveAll(dtos)
 
         // Act
-        ResponseEntity<Map<String, String>> response = controller.saveAll(resources);
+        val response: ResponseEntity<Map<String, String>> = controller.saveAll(resources)
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("Products added!", response.getBody().get("message"));
-        verify(service).saveAll(dtos);
+        assertEquals(200, response.statusCode.value())
+        assertEquals("Products added!", response.getBody()!!["message"])
+        Mockito.verify(service).saveAll(dtos)
     }
 }
-

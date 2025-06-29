@@ -26,7 +26,7 @@ interface OrderRepository : JpaRepository<OrderEntity, Long> {
      * @return the matching OrderEntity, or null if not found
      */
     @Query("SELECT oe FROM OrderEntity oe WHERE user.email = :email AND status = :status")
-    fun findOrderByUserMailAndStatus(email: String, status: StatusOrderEnum): OrderEntity?
+    fun findOrderByUserMailAndStatus(email: String?, status: StatusOrderEnum): OrderEntity?
 
     /**
      * Finds all orders by user email.

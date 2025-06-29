@@ -1,45 +1,44 @@
-package it.marketplace.microservices.controller.user;
+package it.marketplace.microservices.controller.user
 
-import it.marketplace.microservices.config.exception.ServiceException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
+import it.marketplace.microservices.config.exception.ServiceException
+import it.marketplace.microservices.service.UserService
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
+import org.springframework.http.ResponseEntity
+import kotlin.test.assertEquals
 
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
-
-class DeleteUserControllerTest {
+class DeleteUserControllerTest : BaseTest() {
 
     @Mock
-    private UserService service;
+    private val service: UserService = mock()
 
     @InjectMocks
-    private DeleteUserController controller;
+    private val controller: DeleteUserController = mock()
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
     }
 
     @Test
-    void shouldDeleteUser_WhenValidEmail_ThenArrangeActAssert() throws ServiceException {
+    @Throws(ServiceException::class)
+    fun shouldDeleteUser_WhenValidEmail_ThenArrangeActAssert() {
         // Arrange
-        String email = "test@email.com";
-        doNothing().when(service).deleteByEmail(email);
+        val email = "test@email.com"
+        Mockito.doNothing().`when`(service).deleteByEmail(email)
 
         // Act
-        ResponseEntity<Map<String, String>> response = controller.delete(email);
+        val response: ResponseEntity<Map<String, String>> = controller.delete(email)
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("User deleted!", response.getBody().get("message"));
-        verify(service).deleteByEmail(email);
+        assertEquals(200, response.statusCode.value())
+        assertEquals("User deleted!", response.getBody()!!["message"])
+        Mockito.verify(service).deleteByEmail(email)
     }
 }
-

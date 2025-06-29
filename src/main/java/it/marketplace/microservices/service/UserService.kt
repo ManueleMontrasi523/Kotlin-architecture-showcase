@@ -40,7 +40,7 @@ interface UserService {
      * @throws ServiceException if the user is not found
      */
     @Throws(ServiceException::class)
-    fun findByEmailEntity(email: String): UserEntity
+    fun findByEmailEntity(email: String?): UserEntity
 
     /**
      * Finds all users by status.

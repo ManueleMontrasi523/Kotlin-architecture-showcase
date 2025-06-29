@@ -1,66 +1,67 @@
-package it.marketplace.microservices.controller.product;
+package it.marketplace.microservices.controller.product
 
-import it.marketplace.microservices.common.dto.ProductDto;
-import it.marketplace.microservices.common.resource.ProductResource;
-import it.marketplace.microservices.config.exception.ServiceException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
+import it.marketplace.microservices.common.dto.toResource
+import it.marketplace.microservices.common.resource.ProductResource
+import it.marketplace.microservices.config.exception.ServiceException
+import it.marketplace.microservices.service.ProductService
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
+import org.springframework.http.ResponseEntity
+import kotlin.test.assertEquals
 
-
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
-
-class GetProductControllerTest {
+class GetProductControllerTest : BaseTest() {
 
     @Mock
-    private ProductService service;
+    private val service: ProductService = mock()
 
     @InjectMocks
-    private GetProductController controller;
+    private val controller: GetProductController = mock()
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
     }
 
     @Test
-    void shouldReturnProduct_WhenFindByCode_ThenArrangeActAssert() throws ServiceException {
+    @Throws(ServiceException::class)
+    fun shouldReturnProduct_WhenFindByCode_ThenArrangeActAssert() {
         // Arrange
-        String code = "PROD123";
-        ProductDto dto = new ProductDto();
-        ProductResource expected = ProductMapper.toResource(dto);
-        when(service.findByCode(code)).thenReturn(dto);
+        val code = "PROD123"
+        val dto = mockProductDto()
+        val expected: ProductResource? = dto.toResource()
+        Mockito.`when`(service.findByCode(code)).thenReturn(dto)
 
         // Act
-        ResponseEntity<ProductResource> response = controller.find(code);
+        val response: ResponseEntity<ProductResource> = controller.find(code)
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals(expected, response.getBody());
-        verify(service).findByCode(code);
+        assertEquals(200, response.statusCode.value())
+        assertEquals(expected, response.getBody())
+        Mockito.verify(service).findByCode(code)
     }
 
     @Test
-    void shouldReturnAllProducts_WhenFindAll_ThenArrangeActAssert() throws ServiceException {
+    @Throws(ServiceException::class)
+    fun shouldReturnAllProducts_WhenFindAll_ThenArrangeActAssert() {
         // Arrange
-        ProductDto dto = new ProductDto();
-        List<ProductDto> dtos = List.of(dto);
-        when(service.findAll()).thenReturn(dtos);
-        List<ProductResource> expected = dtos.stream().map(ProductMapper::toResource).toList();
+        val dto = mockProductDto()
+        val dtos = listOf(dto)
+        val expected = listOf(dto.toResource())
+        Mockito.`when`(service.findAll()).thenReturn(dtos)
 
         // Act
-        ResponseEntity<List<ProductResource>> response = controller.findAll();
+        val response: ResponseEntity<List<ProductResource>> = controller.findAll()
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals(expected, response.getBody());
-        verify(service).findAll();
+        assertEquals(200, response.statusCode.value())
+        assertEquals(expected, response.getBody())
+        Mockito.verify(service).findAll()
     }
 }
-

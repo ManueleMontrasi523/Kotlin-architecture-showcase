@@ -23,13 +23,13 @@ open class UserEntity(
     val id: Long,
 
     @Column(name = "NAME", nullable = false)
-    var name: String,
+    var name: String?,
 
     @Column(name = "LASTNAME", nullable = false)
-    var lastname: String,
+    var lastname: String?,
 
     @Column(name = "EMAIL", unique = true, nullable = false)
-    var email: String,
+    var email: String?,
 
     @Column(name = "RESIDENCE_ADDRESS")
     var residenceAddress: String? = null,

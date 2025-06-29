@@ -28,7 +28,7 @@ class UserValidator : Validator {
             errors.reject("ERROR_VALIDATION", "Name is mandatory!")
         if (StringUtils.isEmpty(resource.lastname))
             errors.reject("ERROR_VALIDATION", "lastname is mandatory!")
-        if (StringUtils.isEmpty(resource.email) || !EMAIL_PATTERN.matches(resource.email))
+        if (StringUtils.isEmpty(resource.email) || resource.email?.matches(EMAIL_PATTERN) == false)
             errors.reject("ERROR_VALIDATION", "Email missing or with format invalid!")
     }
 }

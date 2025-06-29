@@ -1,58 +1,61 @@
-package it.marketplace.microservices.database.repository;
+package it.marketplace.microservices.database.repository
 
-import it.marketplace.microservices.common.enums.CategoryEnum;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
-
-import static org.junit.jupiter.api.Assertions.*;
+import it.marketplace.microservices.common.dto.toEntity
+import it.marketplace.microservices.common.enums.CategoryEnum
+import it.marketplace.microservices.database.entity.ProductEntity
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.Test
+import org.mockito.Mockito.mock
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import java.math.BigDecimal
+import java.time.LocalDateTime
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 
 @DataJpaTest
-class ProductRepositoryTest {
+open class ProductRepositoryTest : BaseTest() {
 
     @Autowired
-    private ProductRepository repository;
+    private val repository: ProductRepository = mock()
 
     @Test
-    void shouldFindByProductCodeIgnoreCase_ArrangeActAssert() {
+    fun shouldFindByProductCodeIgnoreCase_ArrangeActAssert() {
         // Arrange
-        ProductEntity entity = new ProductEntity();
-        entity.setProductCode("PROD1");
-        entity.setName("TEST");
-        entity.setPRICE(0.59);
-        entity.setSupply(BigDecimal.valueOf(500));
-        entity.setCategory(CategoryEnum.TECHNOLOGIES);
-        entity.setCreationDate(LocalDateTime.now());
-        entity.setTmsUpdate(LocalDateTime.now());
-        repository.save(entity);
+        val entity = mockProductDto().toEntity()
+        entity.productCode = ("PROD1")
+        entity.name = ("TEST")
+        entity.price = (0.59)
+        entity.supply = (BigDecimal.valueOf(500))
+        entity.category = (CategoryEnum.TECHNOLOGIES)
+        entity.creationDate = (LocalDateTime.now())
+        entity.tmsUpdate = (LocalDateTime.now())
+        repository.save(entity)
         // Act
-        ProductEntity found = repository.findByProductCodeIgnoreCase("prod1");
+        val found: ProductEntity = repository.findByProductCodeIgnoreCase("prod1")
         // Assert
-        assertNotNull(found);
-        assertEquals("PROD1", found.getProductCode());
+        assertNotNull(found)
+        assertEquals("PROD1", found.productCode)
     }
 
     @Test
-    void shouldFindAllByProductCodeIn_ArrangeActAssert() {
+    fun shouldFindAllByProductCodeIn_ArrangeActAssert() {
         // Arrange
-        ProductEntity entity = new ProductEntity();
-        entity.setProductCode("PROD2");
-        entity.setName("TEST");
-        entity.setPRICE(0.59);
-        entity.setSupply(BigDecimal.valueOf(500));
-        entity.setCategory(CategoryEnum.TECHNOLOGIES);
-        entity.setCreationDate(LocalDateTime.now());
-        entity.setTmsUpdate(LocalDateTime.now());
-        repository.save(entity);
+        val entity = mockProductDto().toEntity()
+        entity.productCode = ("PROD2")
+        entity.name = ("TEST")
+        entity.price = (0.59)
+        entity.supply = (BigDecimal.valueOf(500))
+        entity.category = (CategoryEnum.TECHNOLOGIES)
+        entity.creationDate = (LocalDateTime.now())
+        entity.tmsUpdate = (LocalDateTime.now())
+        repository.save(entity)
         // Act
-        List<ProductEntity> found = repository.findAllByProductCodeIn(List.of("PROD2"));
+        val found: List<ProductEntity?> = repository.findAllByProductCodeIn(listOf("PROD2"))
         // Assert
-        assertFalse(found.isEmpty());
-        assertEquals("PROD2", found.get(0).getProductCode());
+        assertFalse(found.isEmpty())
+        assertEquals("PROD2", found[0]?.productCode)
     }
 }
 

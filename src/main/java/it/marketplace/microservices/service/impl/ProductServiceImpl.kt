@@ -25,7 +25,7 @@ open class ProductServiceImpl(
         try {
             val now = LocalDateTime.now()
             val entityOld = repository.findByProductCodeIgnoreCase(dto.productCode)
-            if (entityOld != null)
+            if (entityOld.productCode != null)
                 throw ServiceException(ErrorCode.DATA_ALREADY_PRESENT, "Product already registered")
             val entity = dto.toEntity()
             entity.creationDate = now
@@ -40,7 +40,7 @@ open class ProductServiceImpl(
     override fun saveAll(dto: List<ProductDto>) {
         try {
             val now = LocalDateTime.now()
-            val productCodes = dto.map { it.productCode }
+            val productCodes = dto.map { it.productCode }.toList()
             val entityOld = repository.findAllByProductCodeIn(productCodes)
             if (entityOld.isNotEmpty())
                 throw ServiceException(ErrorCode.DATA_ALREADY_PRESENT, "Products already registered")
@@ -78,7 +78,7 @@ open class ProductServiceImpl(
     override fun deleteByCode(code: String) {
         try {
             val entity = checkIfProductExist(code)
-            repository.deleteById(entity.id!!)
+            repository.deleteById(entity.id)
         } catch (e: ServiceException) {
             throw ServiceException(ErrorCode.GENERIC_ERROR, e.message)
         }
@@ -106,14 +106,11 @@ open class ProductServiceImpl(
         return entities.filter { entity ->
             val order = orderMap[entity.productCode]
             order != null && order.quantity > entity.supply
-        }.map { it.productCode }
+        }.map { it.productCode.toString() }
     }
 
-    private fun checkIfProductExist(code: String): ProductEntity {
-        val entity = repository.findByProductCodeIgnoreCase(code)
-        if (entity == null)
-            throw ServiceException(ErrorCode.PRODUCT_NOT_FOUND, "Product with code: $code not found")
-        return entity
+    private fun checkIfProductExist(code: String?): ProductEntity {
+        return repository.findByProductCodeIgnoreCase(code)
     }
 
     private fun copyNonNullProperties(dto: ProductDto, entity: ProductEntity) {

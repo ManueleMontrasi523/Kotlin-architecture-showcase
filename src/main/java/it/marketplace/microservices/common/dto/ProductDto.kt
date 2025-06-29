@@ -13,12 +13,12 @@ import java.time.LocalDateTime
 data class ProductDto(
 
     var id: Long,
-    var productCode: String,
-    var name: String,
+    var productCode: String?,
+    var name: String?,
     var description: String?,
     var price: Double,
     var supply: BigDecimal,
-    var category: CategoryEnum,
+    var category: CategoryEnum?,
 
     var creationDate: LocalDateTime,
     var tmsUpdate: LocalDateTime

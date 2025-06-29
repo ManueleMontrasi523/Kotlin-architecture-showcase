@@ -1,47 +1,46 @@
-package it.marketplace.microservices.controller.user;
+package it.marketplace.microservices.controller.user
 
-import it.marketplace.microservices.common.enums.StatusUserEnum;
-import it.marketplace.microservices.config.exception.ServiceException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
+import it.marketplace.microservices.common.enums.StatusUserEnum
+import it.marketplace.microservices.config.exception.ServiceException
+import it.marketplace.microservices.service.UserService
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
+import org.springframework.http.ResponseEntity
+import kotlin.test.assertEquals
 
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
-
-class StatusUserControllerTest {
+class StatusUserControllerTest : BaseTest() {
 
     @Mock
-    private UserService service;
+    private val service: UserService = mock()
 
     @InjectMocks
-    private StatusUserController controller;
+    private val controller: StatusUserController = mock()
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
     }
 
     @Test
-    void shouldUpdateUserStatus_WhenValidEmailAndStatus_ThenArrangeActAssert() throws ServiceException {
+    @Throws(ServiceException::class)
+    fun shouldUpdateUserStatus_WhenValidEmailAndStatus_ThenArrangeActAssert() {
         // Arrange
-        String email = "test@email.com";
-        StatusUserEnum status = StatusUserEnum.ACTIVE;
-        doNothing().when(service).statusByEmail(email, status);
+        val email = "test@email.com"
+        val status = StatusUserEnum.ACTIVE
+        Mockito.doNothing().`when`(service).statusByEmail(email, status)
 
         // Act
-        ResponseEntity<Map<String, String>> response = controller.status(email, status);
+        val response: ResponseEntity<Map<String, String>> = controller.status(email, status)
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("User updated!", response.getBody().get("message"));
-        verify(service).statusByEmail(email, status);
+        assertEquals(200, response.statusCode.value())
+        assertEquals("User updated!", response.getBody()!!["message"])
+        Mockito.verify(service).statusByEmail(email, status)
     }
 }
-

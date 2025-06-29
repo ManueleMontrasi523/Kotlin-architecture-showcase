@@ -1,100 +1,97 @@
-package it.marketplace.microservices.service;
+package it.marketplace.microservices.service
 
-import it.marketplace.microservices.common.dto.PaymentOrderDto;
-import it.marketplace.microservices.database.repository.PaymentOrderRepository;
-import it.marketplace.microservices.common.dto.OrderDto;
-import it.marketplace.microservices.common.enums.StatusOrderEnum;
-import it.marketplace.microservices.database.repository.PaymentInstallmentsRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import it.marketplace.microservices.common.dto.PaymentOrderDto
+import it.marketplace.microservices.common.enums.StatusOrderEnum
+import it.marketplace.microservices.database.repository.PaymentInstallmentsRepository
+import it.marketplace.microservices.database.repository.PaymentOrderRepository
+import it.marketplace.microservices.service.impl.PaymentOrderServiceImpl
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.*
+import org.mockito.Mockito.mock
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
-
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-class PaymentOrderServiceTest {
+class PaymentOrderServiceTest : BaseTest() {
+    @Mock
+    private val repository: PaymentOrderRepository = mock()
 
     @Mock
-    private PaymentOrderRepository repository;
+    private val orderService: OrderService = mock()
 
     @Mock
-    private OrderService orderService;
-
-    @Mock
-    private PaymentInstallmentsRepository paymentInstallmentsRepository;
+    private val paymentInstallmentsRepository: PaymentInstallmentsRepository = mock()
 
     @InjectMocks
-    private PaymentOrderServiceImpl service;
+    private val service: PaymentOrderServiceImpl = mock()
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
     }
 
     @Test
-    void shouldFindOrderByEmail_WhenOrdersExist_ThenArrangeActAssert() {
+    fun shouldFindOrderByEmail_WhenOrdersExist_ThenArrangeActAssert() {
         // Arrange
-        String email = "test@email.com";
-        OrderDto orderDto = new OrderDto();
-        orderDto.setOrderCode("ORD123");
-        when(orderService.findByUserMail(email)).thenReturn(List.of(orderDto));
-        PaymentOrderEntity entity = new PaymentOrderEntity();
-        when(repository.findByOrderCodeIn(List.of("ORD123"))).thenReturn(List.of(entity));
+        val email = "test@email.com"
+        val orderDto = mockOrderDto()
+        orderDto.orderCode = "ORD123"
+        Mockito.`when`(orderService.findByUserMail(email)).thenReturn(listOf(orderDto))
+        val entity = mockPaymentOrderEntity()
+        Mockito.`when`(repository.findByOrderCodeIn(listOf("ORD123")))
+            .thenReturn(listOf(entity))
         // Act
-        List<PaymentOrderDto> result = service.findOrderByEmail(email);
+        val result: List<PaymentOrderDto?> = service.findOrderByEmail(email)
         // Assert
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        verify(orderService).findByUserMail(email);
-        verify(repository).findByOrderCodeIn(List.of("ORD123"));
+        assertNotNull(result)
+        assertEquals(1, result.size)
+        Mockito.verify(orderService).findByUserMail(email)
+        Mockito.verify(repository).findByOrderCodeIn(listOf("ORD123"))
     }
 
     @Test
-    void shouldFindAll_WhenPaymentOrdersExist_ThenArrangeActAssert() {
+    fun shouldFindAll_WhenPaymentOrdersExist_ThenArrangeActAssert() {
         // Arrange
-        PaymentOrderEntity entity = new PaymentOrderEntity();
-        when(repository.findAll()).thenReturn(List.of(entity));
+        val entity = mockPaymentOrderEntity()
+        Mockito.`when`(repository.findAll()).thenReturn(listOf(entity))
         // Act
-        List<PaymentOrderDto> result = service.findAll();
+        val result: List<PaymentOrderDto?> = service.findAll()
         // Assert
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        verify(repository).findAll();
+        assertNotNull(result)
+        assertEquals(1, result.size)
+        Mockito.verify(repository).findAll()
     }
 
     @Test
-    void shouldPayOrder_WhenNotInstallments_ThenArrangeActAssert() {
+    fun shouldPayOrder_WhenNotInstallments_ThenArrangeActAssert() {
         // Arrange
-        String orderCode = "ORD123";
-        PaymentOrderEntity entity = new PaymentOrderEntity();
-        entity.setStatus(StatusOrderEnum.PENDING_PAYMENT);
-        entity.setDebit(120.0);
-        when(repository.findByOrderCodeIgnoreCase(orderCode)).thenReturn(entity);
+        val orderCode = "ORD123"
+        val entity = mockPaymentOrderEntity()
+        entity.status = StatusOrderEnum.PENDING_PAYMENT
+        entity.debit = 120.0
+        Mockito.`when`(repository.findByOrderCodeIgnoreCase(orderCode)).thenReturn(entity)
         // Act
-        service.payOrder(orderCode, false);
+        service.payOrder(orderCode, false)
         // Assert
-        assertEquals(StatusOrderEnum.PAID, entity.getStatus());
-        verify(orderService).payOrder(orderCode);
-        verify(repository).save(entity);
+        assertEquals(StatusOrderEnum.PAID, entity.status)
+        Mockito.verify(orderService).payOrder(orderCode)
+        Mockito.verify(repository).save(entity)
     }
 
     @Test
-    void shouldPayOrder_WhenInstallments_ThenArrangeActAssert() {
+    fun shouldPayOrder_WhenInstallments_ThenArrangeActAssert() {
         // Arrange
-        String orderCode = "ORD124";
-        PaymentOrderEntity entity = new PaymentOrderEntity();
-        entity.setStatus(StatusOrderEnum.PENDING_PAYMENT);
-        entity.setDebit(120.0);
-        when(repository.findByOrderCodeIgnoreCase(orderCode)).thenReturn(entity);
+        val orderCode = "ORD124"
+        val entity = mockPaymentOrderEntity()
+        entity.status = StatusOrderEnum.PENDING_PAYMENT
+        entity.debit = 120.0
+        Mockito.`when`(repository.findByOrderCodeIgnoreCase(orderCode)).thenReturn(entity)
         // Act
-        service.payOrder(orderCode, true);
+        service.payOrder(orderCode, true)
         // Assert
-        assertEquals(StatusOrderEnum.RATEIZED, entity.getStatus());
-        verify(paymentInstallmentsRepository).saveAll(anyList());
-        verify(repository).save(entity);
+        assertEquals(StatusOrderEnum.RATEIZED, entity.status)
+        Mockito.verify(paymentInstallmentsRepository).saveAll(ArgumentMatchers.anyList())
+        Mockito.verify(repository).save(entity)
     }
 }

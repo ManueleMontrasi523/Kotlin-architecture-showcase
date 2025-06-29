@@ -2,6 +2,7 @@ package it.marketplace.microservices.config.validation
 
 import it.marketplace.microservices.common.enums.CategoryEnum
 import it.marketplace.microservices.common.resource.ProductResource
+import it.marketplace.microservices.utils.BaseTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.validation.BeanPropertyBindingResult
@@ -13,7 +14,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 
-class ProductValidatorTest {
+class ProductValidatorTest: BaseTest() {
     private lateinit var validator: ProductValidator
 
     @BeforeEach

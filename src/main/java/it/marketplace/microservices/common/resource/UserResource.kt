@@ -45,16 +45,3 @@ fun UserResource.toDto() = UserDto(
     tmsSubscriptionDate = this.tmsSubscriptionDate,
     tmsUpdate = this.tmsUpdate
 )
-
-fun UserResource.toEntity() = UserEntity(
-    id = this.id,
-    name = this.name,
-    lastname = this.lastname,
-    email = this.email,
-    residenceAddress = this.residenceAddress,
-    residenceCity = this.residenceCity,
-    status = this.status,
-    role = this.role,
-    tmsSubscriptionDate = this.tmsSubscriptionDate,
-    tmsUpdate = this.tmsUpdate
-)

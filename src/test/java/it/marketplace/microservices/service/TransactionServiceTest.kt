@@ -1,42 +1,49 @@
-package it.marketplace.microservices.service;
+package it.marketplace.microservices.service
 
-import it.marketplace.microservices.database.repository.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import it.marketplace.microservices.database.repository.*
+import it.marketplace.microservices.rabbitmq.RabbitMqProducer
+import it.marketplace.microservices.service.impl.TransactionServiceImpl
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
+import kotlin.test.assertTrue
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+class TransactionServiceTest : BaseTest() {
+    @Mock
+    private val orderRepository: OrderRepository = mock()
 
-class TransactionServiceTest {
+    @Mock
+    private val productRepository: ProductRepository = mock()
 
     @Mock
-    private OrderRepository orderRepository;
+    private val userRepository: UserRepository = mock()
+
     @Mock
-    private ProductRepository productRepository;
+    private val paymentOrderRepository: PaymentOrderRepository = mock()
+
     @Mock
-    private UserRepository userRepository;
+    private val paymentInstallmentsRepository: PaymentInstallmentsRepository = mock()
+
     @Mock
-    private PaymentOrderRepository paymentOrderRepository;
-    @Mock
-    private PaymentInstallmentsRepository paymentInstallmentsRepository;
-    @Mock
-    private RabbitMqProducer rabbitMqProducer;
+    private val rabbitMqProducer: RabbitMqProducer = mock()
 
     @InjectMocks
-    private TransactionServiceImpl service;
+    private val service: TransactionServiceImpl = mock()
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
     }
 
     @Test
-    void shouldCallReadPendingPaymentsOrder_WhenInvoked_ThenArrangeActAssert() {
+    fun shouldCallReadPendingPaymentsOrder_WhenInvoked_ThenArrangeActAssert() {
         // Arrange/Act
-        service.readPendingPaymentsOrder();
-        assertTrue(true);
+        service.readPendingPaymentsOrder()
+        assertTrue(true)
     }
 }
 

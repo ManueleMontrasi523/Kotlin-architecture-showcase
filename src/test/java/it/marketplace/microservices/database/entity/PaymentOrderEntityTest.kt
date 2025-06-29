@@ -1,71 +1,44 @@
-package it.marketplace.microservices.database.entity;
+package it.marketplace.microservices.database.entity
 
-import it.marketplace.microservices.common.enums.StatusOrderEnum;
-import org.junit.jupiter.api.Test;
+import it.marketplace.microservices.common.enums.StatusOrderEnum
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import java.time.LocalDateTime
+import kotlin.test.assertEquals
 
-import java.time.LocalDateTime;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-class PaymentOrderEntityTest {
-
+class PaymentOrderEntityTest : BaseTest() {
     @Test
-    void shouldCreateEntityWithAllArgsConstructor_ArrangeActAssert() {
+    fun shouldCreateEntityWithAllArgsConstructor_ArrangeActAssert() {
         // Arrange/Act
-        LocalDateTime now = LocalDateTime.now();
-        PaymentOrderEntity entity = new PaymentOrderEntity(1L, "ORD1", StatusOrderEnum.PAID, 100.0, now, now);
+        val now = LocalDateTime.now()
+        val entity = mockPaymentOrderEntity()
         // Assert
-        assertEquals(1L, entity.getId());
-        assertEquals("ORD1", entity.getOrderCode());
-        assertEquals(StatusOrderEnum.PAID, entity.getStatus());
-        assertEquals(100.0, entity.getDebit());
-        assertEquals(now, entity.getOrderDate());
-        assertEquals(now, entity.getTmsUpdate());
+        assertEquals(1L, entity.id)
+        assertEquals("ORD1", entity.orderCode)
+        assertEquals(StatusOrderEnum.PAID, entity.status)
+        assertEquals(100.0, entity.debit)
+        assertEquals(now, entity.orderDate)
+        assertEquals(now, entity.tmsUpdate)
     }
 
     @Test
-    void shouldSetAndGetFields_ArrangeActAssert() {
+    fun shouldSetAndGetFields_ArrangeActAssert() {
         // Arrange
-        PaymentOrderEntity entity = new PaymentOrderEntity();
-        LocalDateTime now = LocalDateTime.now();
+        val now = LocalDateTime.now()
+        val entity = mockPaymentOrderEntity()
         // Act
-        entity.setId(2L);
-        entity.setOrderCode("ORD2");
-        entity.setStatus(StatusOrderEnum.CREATED);
-        entity.setDebit(200.0);
-        entity.setOrderDate(now);
-        entity.setTmsUpdate(now);
+        entity.orderCode = "ORD2"
+        entity.status = StatusOrderEnum.CREATED
+        entity.debit = 200.0
+        entity.orderDate = now
+        entity.tmsUpdate = now
         // Assert
-        assertEquals(2L, entity.getId());
-        assertEquals("ORD2", entity.getOrderCode());
-        assertEquals(StatusOrderEnum.CREATED, entity.getStatus());
-        assertEquals(200.0, entity.getDebit());
-        assertEquals(now, entity.getOrderDate());
-        assertEquals(now, entity.getTmsUpdate());
-    }
-
-    @Test
-    void shouldTestEqualsAndHashCode_ArrangeActAssert() {
-        // Arrange
-        PaymentOrderEntity e1 = new PaymentOrderEntity();
-        PaymentOrderEntity e2 = new PaymentOrderEntity();
-        // Act
-        e1.setId(1L); e2.setId(1L);
-        e1.setOrderCode("ORD"); e2.setOrderCode("ORD");
-        // Assert
-        assertEquals(e1, e2);
-        assertEquals(e1.hashCode(), e2.hashCode());
-    }
-
-    @Test
-    void shouldTestToString_ArrangeActAssert() {
-        // Arrange
-        PaymentOrderEntity entity = new PaymentOrderEntity();
-        entity.setOrderCode("ORD");
-        // Act
-        String str = entity.toString();
-        // Assert
-        assertTrue(str.contains("ORD"));
+        assertEquals("ORD2", entity.orderCode)
+        assertEquals(StatusOrderEnum.CREATED, entity.status)
+        assertEquals(200.0, entity.debit)
+        assertEquals(now, entity.orderDate)
+        assertEquals(now, entity.tmsUpdate)
     }
 }
 

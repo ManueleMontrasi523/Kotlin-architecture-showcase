@@ -1,10 +1,11 @@
 package it.marketplace.microservices.controller.user
 
-import it.marketplace.microservices.common.resource.UserResource
+import it.marketplace.microservices.common.dto.toResource
 import it.marketplace.microservices.common.resource.toDto
 import it.marketplace.microservices.config.exception.ServiceException
 import it.marketplace.microservices.config.validation.UserValidator
 import it.marketplace.microservices.service.UserService
+import it.marketplace.microservices.utils.BaseTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.InjectMocks
@@ -16,7 +17,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.WebDataBinder
 import kotlin.test.assertEquals
 
-class PutUserControllerTest {
+class PutUserControllerTest : BaseTest() {
 
     @Mock
     private lateinit var service: UserService
@@ -40,13 +41,13 @@ class PutUserControllerTest {
     @Throws(ServiceException::class)
     fun shouldUpdateUser_WhenValidResource_ThenArrangeActAssert() {
         // Arrange
-        val resource = UserResource()
+        val resource = mockUserDto().toResource()
         doNothing().`when`(service).update(resource.toDto())
         // Act
         val response: ResponseEntity<Map<String, String>> = controller.update(resource)
         // Assert
-        assertEquals(200, response.statusCodeValue)
-        assertEquals("User updated!", response.body?.get("message"))
+        assertEquals(200, response.statusCode.value())
+        assertEquals("User updated!", response.body?.getValue("message"))
         verify(service).update(resource.toDto())
     }
 }

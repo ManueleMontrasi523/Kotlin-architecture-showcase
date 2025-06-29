@@ -1,42 +1,44 @@
-package it.marketplace.microservices.service;
+package it.marketplace.microservices.service
 
-import it.marketplace.microservices.database.repository.PaymentInstallmentsRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import PaymentInstallmentsDto
+import it.marketplace.microservices.database.repository.PaymentInstallmentsRepository
+import it.marketplace.microservices.service.impl.PaymentInstallmentsServiceImpl
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 
-
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-class PaymentInstallmentsServiceTest {
+class PaymentInstallmentsServiceTest : BaseTest() {
 
     @Mock
-    private PaymentInstallmentsRepository repository;
+    private val repository: PaymentInstallmentsRepository = mock()
 
     @InjectMocks
-    private PaymentInstallmentsServiceImpl service;
+    private val service: PaymentInstallmentsServiceImpl = mock()
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
     }
 
     @Test
-    void shouldFindAllByCode_WhenInstallmentsExist_ThenArrangeActAssert() {
+    fun shouldFindAllByCode_WhenInstallmentsExist_ThenArrangeActAssert() {
         // Arrange
-        String orderCode = "ORD123";
-        PaymentInstallmentsEntity entity = new PaymentInstallmentsEntity();
-        when(repository.findByOrderCode(orderCode)).thenReturn(List.of(entity));
+        val orderCode = "ORD123"
+        val entity = mockPaymentInstallmentsEntity()
+        Mockito.`when`(repository.findByOrderCode(orderCode)).thenReturn(listOf(entity))
         // Act
-        List<PaymentInstallmentsDto> result = service.findAllByCode(orderCode);
+        val result: List<PaymentInstallmentsDto?> = service.findAllByCode(orderCode)
         // Assert
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        verify(repository).findByOrderCode(orderCode);
+        assertNotNull(result)
+        assertEquals(1, result.size)
+        Mockito.verify(repository).findByOrderCode(orderCode)
     }
 }
 

@@ -12,9 +12,9 @@ import java.time.LocalDateTime
  */
 data class UserDto(
     var id: Long,
-    var name: String,
-    var lastname: String,
-    var email: String,
+    var name: String?,
+    var lastname: String?,
+    var email: String?,
     var residenceAddress: String?,
     var residenceCity: String?,
     var status: StatusUserEnum,

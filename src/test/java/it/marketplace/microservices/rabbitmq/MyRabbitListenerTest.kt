@@ -1,48 +1,48 @@
-package it.marketplace.microservices.rabbitmq;
+package it.marketplace.microservices.rabbitmq
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import it.marketplace.microservices.service.TransactionService
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.mockito.Mockito.verify;
-
-class MyRabbitListenerTest {
+class MyRabbitListenerTest : BaseTest() {
 
     @Mock
-    private TransactionService service;
+    private val service: TransactionService = mock()
 
     @InjectMocks
-    private MyRabbitListener listener;
+    private val listener: MyRabbitListener = mock()
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
     }
 
     @Test
-    void shouldCallStartProcessing_WhenListenerNewOrder_ThenArrangeActAssert() throws Exception {
+    @Throws(Exception::class)
+    fun shouldCallStartProcessing_WhenListenerNewOrder_ThenArrangeActAssert() {
         // Arrange
-        String orderCode = "ORD123";
+        val orderCode = "ORD123"
         // Act
-        listener.listenerNewOrder(orderCode);
+        listener.listenerNewOrder(orderCode)
         // Assert
-        verify(service).startProcessing(orderCode);
+        Mockito.verify(service).startProcessing(orderCode)
     }
 
     @Test
-    void shouldCallStartPendingPayment_WhenListenerPendingPayment_ThenArrangeActAssert() throws Exception {
+    @Throws(Exception::class)
+    fun shouldCallStartPendingPayment_WhenListenerPendingPayment_ThenArrangeActAssert() {
         // Arrange
-        Map<String, String> message = new HashMap<>();
-        message.put("orderCode", "ORD123");
+        val message = mapOf("orderCode" to "ORD123")
         // Act
-        listener.listenerPendingPayment(message);
+        listener.listenerPendingPayment(message)
         // Assert
-        verify(service).startPendingPayment(message);
+        Mockito.verify(service).startPendingPayment(message)
     }
 }
 

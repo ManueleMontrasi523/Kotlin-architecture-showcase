@@ -2,13 +2,14 @@ package it.marketplace.microservices.config.interceptor
 
 import it.marketplace.microservices.common.enums.ErrorCode
 import it.marketplace.microservices.config.exception.ServiceException
+import it.marketplace.microservices.utils.BaseTest
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-class ExceptionCustomHandlerTest {
+class ExceptionCustomHandlerTest: BaseTest() {
     private val handler = ExceptionCustomHandler()
 
     @Test

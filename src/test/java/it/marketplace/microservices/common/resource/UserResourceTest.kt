@@ -2,11 +2,12 @@ package it.marketplace.microservices.common.resource
 
 import it.marketplace.microservices.common.enums.RoleEnum
 import it.marketplace.microservices.common.enums.StatusUserEnum
+import it.marketplace.microservices.utils.BaseTest
 import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 import kotlin.test.assertEquals
 
-class UserResourceTest {
+class UserResourceTest: BaseTest() {
     @Test
     fun shouldCreateUserResourceWithAllFields() {
         // Arrange

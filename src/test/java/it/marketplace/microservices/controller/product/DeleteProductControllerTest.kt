@@ -1,45 +1,44 @@
-package it.marketplace.microservices.controller.product;
+package it.marketplace.microservices.controller.product
 
-import it.marketplace.microservices.config.exception.ServiceException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
+import it.marketplace.microservices.config.exception.ServiceException
+import it.marketplace.microservices.service.ProductService
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
+import org.springframework.http.ResponseEntity
+import kotlin.test.assertEquals
 
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
-
-class DeleteProductControllerTest {
+class DeleteProductControllerTest : BaseTest() {
 
     @Mock
-    private ProductService service;
+    private val service: ProductService = mock()
 
     @InjectMocks
-    private DeleteProductController controller;
+    private val controller: DeleteProductController = mock()
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
     }
 
     @Test
-    void shouldDeleteProduct_WhenValidProductCode_ThenArrangeActAssert() throws ServiceException {
+    @Throws(ServiceException::class)
+    fun shouldDeleteProduct_WhenValidProductCode_ThenArrangeActAssert() {
         // Arrange
-        String productCode = "PROD123";
-        doNothing().when(service).deleteByCode(productCode);
+        val productCode = "PROD123"
+        Mockito.doNothing().`when`(service).deleteByCode(productCode)
 
         // Act
-        ResponseEntity<Map<String, String>> response = controller.delete(productCode);
+        val response: ResponseEntity<Map<String, String>> = controller.delete(productCode)
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("Product deleted!", response.getBody().get("message"));
-        verify(service).deleteByCode(productCode);
+        assertEquals(200, response.statusCode.value())
+        assertEquals("Product deleted!", response.getBody()!!["message"])
+        Mockito.verify(service).deleteByCode(productCode)
     }
 }
-

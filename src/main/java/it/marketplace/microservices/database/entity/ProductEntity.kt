@@ -23,10 +23,10 @@ open class ProductEntity(
     val id: Long,
 
     @Column(name = "PRODUCT_CODE", unique = true, nullable = false)
-    var productCode: String,
+    var productCode: String?,
 
     @Column(name = "NAME", nullable = false)
-    var name: String,
+    var name: String?,
 
     @Column(name = "DESCRIPTION")
     var description: String? = null,
@@ -39,7 +39,7 @@ open class ProductEntity(
 
     @Enumerated(EnumType.STRING)
     @Column(name = "CATEGORY", nullable = false)
-    var category: CategoryEnum,
+    var category: CategoryEnum?,
 
     @DateTimeFormat
     @Column(name = "CREATION_DATE", nullable = false)

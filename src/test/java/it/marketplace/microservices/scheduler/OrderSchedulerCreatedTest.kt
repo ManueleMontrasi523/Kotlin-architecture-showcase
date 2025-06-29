@@ -1,33 +1,35 @@
-package it.marketplace.microservices.scheduler;
+package it.marketplace.microservices.scheduler
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import it.marketplace.microservices.service.TransactionService
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
 
-import static org.mockito.Mockito.verify;
-
-class OrderSchedulerCreatedTest {
+class OrderSchedulerCreatedTest : BaseTest() {
 
     @Mock
-    private TransactionService service;
+    private val service: TransactionService = mock()
 
     @InjectMocks
-    private OrderSchedulerCreated scheduler;
+    private val scheduler: OrderSchedulerCreated = mock()
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
     }
 
     @Test
-    void shouldCallTransactionServiceMethods_WhenStartProcessOrder_ThenArrangeActAssert() {
+    fun shouldCallTransactionServiceMethods_WhenStartProcessOrder_ThenArrangeActAssert() {
         // Arrange/Act
-        scheduler.startProcessOrder();
+        scheduler.startProcessOrder()
         // Assert
-        verify(service).readPendingPaymentsOrder();
-        verify(service).startAlignmentStatesOrder();
+        Mockito.verify(service).readPendingPaymentsOrder()
+        Mockito.verify(service).startAlignmentStatesOrder()
     }
 }
 

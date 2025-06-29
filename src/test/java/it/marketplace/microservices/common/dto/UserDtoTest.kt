@@ -2,11 +2,12 @@ package it.marketplace.microservices.common.dto
 
 import it.marketplace.microservices.common.enums.RoleEnum
 import it.marketplace.microservices.common.enums.StatusUserEnum
+import it.marketplace.microservices.utils.BaseTest
 import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 import kotlin.test.assertEquals
 
-class UserDtoTest {
+class UserDtoTest: BaseTest() {
     @Test
     fun shouldCreateUserDtoWithAllFields() {
         // Arrange

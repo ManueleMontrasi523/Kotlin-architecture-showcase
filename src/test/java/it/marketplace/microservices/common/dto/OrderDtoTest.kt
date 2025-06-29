@@ -3,12 +3,13 @@ package it.marketplace.microservices.common.dto
 import it.marketplace.microservices.common.enums.RoleEnum
 import it.marketplace.microservices.common.enums.StatusOrderEnum
 import it.marketplace.microservices.common.enums.StatusUserEnum
+import it.marketplace.microservices.utils.BaseTest
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import kotlin.test.assertEquals
 
-class OrderDtoTest {
+class OrderDtoTest : BaseTest() {
 
     @Test
     fun shouldCreateOrderDtoWithAllFields() {

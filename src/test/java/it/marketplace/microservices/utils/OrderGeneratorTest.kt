@@ -1,21 +1,20 @@
-package it.marketplace.microservices.utils;
+package it.marketplace.microservices.utils
 
-import org.junit.jupiter.api.Test;
+import it.marketplace.microservices.utils.OrderGenerator.generateOrderCode
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class OrderGeneratorTest {
-
+internal class OrderGeneratorTest {
     @Test
-    void shouldGenerateOrderCodeWithPrefixAndSixDigits_ArrangeActAssert() {
+    fun shouldGenerateOrderCodeWithPrefixAndSixDigits_ArrangeActAssert() {
         // Arrange/Act
-        String code = OrderGenerator.generateOrderCode();
+        val code = generateOrderCode()
         // Assert
-        assertNotNull(code);
-        assertTrue(code.startsWith("ORDER"));
-        assertEquals(11, code.length());
-        String digits = code.substring(5);
-        assertTrue(digits.matches("\\d{6}"));
+        Assertions.assertNotNull(code)
+        Assertions.assertTrue(code.startsWith("ORDER"))
+        Assertions.assertEquals(11, code.length)
+        val digits = code.substring(5)
+        Assertions.assertTrue(digits.matches("\\d{6}".toRegex()))
     }
 }
 

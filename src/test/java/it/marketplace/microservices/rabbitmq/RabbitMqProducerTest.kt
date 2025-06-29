@@ -1,57 +1,55 @@
-package it.marketplace.microservices.rabbitmq;
+package it.marketplace.microservices.rabbitmq
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import it.marketplace.microservices.config.rabbitmq.RabbitMqConfig
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
+import org.springframework.amqp.rabbit.core.RabbitTemplate
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.mockito.Mockito.verify;
-
-class RabbitMqProducerTest {
+class RabbitMqProducerTest : BaseTest() {
 
     @Mock
-    private RabbitTemplate rabbitTemplate;
+    private val rabbitTemplate: RabbitTemplate = mock()
 
     @InjectMocks
-    private RabbitMqProducer producer;
+    private val producer: RabbitMqProducer = mock()
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
     }
 
     @Test
-    void shouldSendMessageNewOrder_WhenCalled_ThenArrangeActAssert() {
+    fun shouldSendMessageNewOrder_WhenCalled_ThenArrangeActAssert() {
         // Arrange
-        String message = "ORD123";
+        val message = "ORD123"
         // Act
-        producer.sendMessageNewOrder(message);
+        producer.sendMessageNewOrder(message)
         // Assert
-        verify(rabbitTemplate).convertAndSend(
-                RabbitMqConfig.IT_EXCHANGE,
-                RabbitMqConfig.NEW_ORDER_ROUTING_KEY,
-                message
-        );
+        Mockito.verify(rabbitTemplate).convertAndSend(
+            RabbitMqConfig.IT_EXCHANGE,
+            RabbitMqConfig.NEW_ORDER_ROUTING_KEY,
+            message
+        )
     }
 
     @Test
-    void shouldSendMessagePendingPayment_WhenCalled_ThenArrangeActAssert() {
+    fun shouldSendMessagePendingPayment_WhenCalled_ThenArrangeActAssert() {
         // Arrange
-        Map<String, Object> message = new HashMap<>();
-        message.put("orderCode", "ORD123");
+        val message = mapOf("orderCode" to "ORD123")
         // Act
-        producer.sendMessagePendingPayment(message);
+        producer.sendMessagePendingPayment(message)
         // Assert
-        verify(rabbitTemplate).convertAndSend(
-                RabbitMqConfig.IT_EXCHANGE,
-                RabbitMqConfig.PENDING_PAYMENT_ROUTING_KEY,
-                message
-        );
+        Mockito.verify(rabbitTemplate).convertAndSend(
+            RabbitMqConfig.IT_EXCHANGE,
+            RabbitMqConfig.PENDING_PAYMENT_ROUTING_KEY,
+            message
+        )
     }
 }
 

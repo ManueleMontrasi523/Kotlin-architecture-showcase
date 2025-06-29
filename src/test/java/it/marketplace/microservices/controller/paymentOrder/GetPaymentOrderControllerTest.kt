@@ -1,67 +1,67 @@
-package it.marketplace.microservices.controller.paymentOrder;
+package it.marketplace.microservices.controller.paymentOrder
 
-import it.marketplace.microservices.common.dto.PaymentOrderDto;
-import it.marketplace.microservices.common.resource.PaymentOrderResource;
-import it.marketplace.microservices.config.exception.ServiceException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
+import it.marketplace.microservices.common.dto.toResource
+import it.marketplace.microservices.common.resource.PaymentOrderResource
+import it.marketplace.microservices.config.exception.ServiceException
+import it.marketplace.microservices.service.PaymentOrderService
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
+import org.springframework.http.ResponseEntity
+import kotlin.test.assertEquals
 
-
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
-
-class GetPaymentOrderControllerTest {
-
+class GetPaymentOrderControllerTest : BaseTest() {
     @Mock
-    private PaymentOrderService service;
+    private val service: PaymentOrderService = mock()
 
     @InjectMocks
-    private GetPaymentOrderController controller;
+    private val controller: GetPaymentOrderController = mock()
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
     }
 
     @Test
-    void shouldReturnPaymentOrders_WhenFindByUserEmail_ThenArrangeActAssert() throws ServiceException {
+    @Throws(ServiceException::class)
+    fun shouldReturnPaymentOrders_WhenFindByUserEmail_ThenArrangeActAssert() {
         // Arrange
-        String email = "test@email.com";
-        PaymentOrderDto dto = new PaymentOrderDto();
-        List<PaymentOrderDto> dtos = List.of(dto);
-        when(service.findOrderByEmail(email)).thenReturn(dtos);
-        List<PaymentOrderResource> expected = dtos.stream().map(PaymentOrderMapper::toResource).toList();
+        val email = "test@email.com"
+        val dto = mockPaymentOrderDto()
+        val dtos = listOf(dto)
+        val expected = listOf(dto.toResource())
+        Mockito.`when`(service.findOrderByEmail(email)).thenReturn(dtos)
 
         // Act
-        ResponseEntity<List<PaymentOrderResource>> response = controller.find(email);
+        val response: ResponseEntity<kotlin.collections.List<PaymentOrderResource?>?> = controller.find(email)
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals(expected, response.getBody());
-        verify(service).findOrderByEmail(email);
+        assertEquals(200, response.statusCode.value())
+        assertEquals(expected, response.getBody())
+        Mockito.verify(service).findOrderByEmail(email)
     }
 
     @Test
-    void shouldReturnAllPaymentOrders_WhenFindAll_ThenArrangeActAssert() throws ServiceException {
+    @Throws(ServiceException::class)
+    fun shouldReturnAllPaymentOrders_WhenFindAll_ThenArrangeActAssert() {
         // Arrange
-        PaymentOrderDto dto = new PaymentOrderDto();
-        List<PaymentOrderDto> dtos = List.of(dto);
-        when(service.findAll()).thenReturn(dtos);
-        List<PaymentOrderResource> expected = dtos.stream().map(PaymentOrderMapper::toResource).toList();
+        val dto = mockPaymentOrderDto()
+        val dtos = listOf(dto)
+        val expected = listOf(dto.toResource())
+        Mockito.`when`(service.findAll()).thenReturn(dtos)
 
         // Act
-        ResponseEntity<List<PaymentOrderResource>> response = controller.findAll();
+        val response: ResponseEntity<List<PaymentOrderResource?>?> = controller.findAll()
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals(expected, response.getBody());
-        verify(service).findAll();
+        assertEquals(200, response.statusCode.value())
+        assertEquals(expected, response.getBody())
+        Mockito.verify(service).findAll()
     }
 }
-

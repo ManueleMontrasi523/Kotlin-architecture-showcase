@@ -1,11 +1,12 @@
 package it.marketplace.microservices.common.resource
 
 import it.marketplace.microservices.common.enums.StatusOrderEnum
+import it.marketplace.microservices.utils.BaseTest
 import org.junit.jupiter.api.Test
 import java.time.LocalDateTime
 import kotlin.test.assertEquals
 
-class PaymentInstallmentsResourceTest {
+class PaymentInstallmentsResourceTest : BaseTest() {
     @Test
     fun shouldCreatePaymentInstallmentsResourceWithAllFields() {
         // Arrange

@@ -1,105 +1,107 @@
-package it.marketplace.microservices.database.repository;
+package it.marketplace.microservices.database.repository
 
-import it.marketplace.microservices.common.enums.RoleEnum;
-import it.marketplace.microservices.common.enums.StatusUserEnum;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import jakarta.persistence.EntityManager;
-
-import java.time.LocalDateTime;
-
-
-import static org.junit.jupiter.api.Assertions.*;
+import it.marketplace.microservices.common.dto.toEntity
+import it.marketplace.microservices.common.enums.RoleEnum
+import it.marketplace.microservices.common.enums.StatusUserEnum
+import it.marketplace.microservices.database.entity.UserEntity
+import it.marketplace.microservices.utils.BaseTest
+import jakarta.persistence.EntityManager
+import org.junit.jupiter.api.Test
+import org.mockito.Mockito.mock
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import java.time.LocalDateTime
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 @DataJpaTest
-class UserRepositoryTest {
+open class UserRepositoryTest : BaseTest() {
 
     @Autowired
-    private UserRepository repository;
+    private val repository: UserRepository = mock()
 
     @Autowired
-    private EntityManager entityManager;
+    private val entityManager: EntityManager = mock()
 
     @Test
-    void shouldFindByEmailIgnoreCase_ArrangeActAssert() {
+    fun shouldFindByEmailIgnoreCase_ArrangeActAssert() {
         // Arrange
-        UserEntity entity = new UserEntity();
-        entity.setName("user");
-        entity.setLastname("3");
-        entity.setEmail("test@email.com");
-        entity.setRole(RoleEnum.CLIENT);
-        entity.setTmsSubscriptionDate(LocalDateTime.now());
-        entity.setTmsUpdate(LocalDateTime.now());
-        entity.setStatus(StatusUserEnum.ACTIVE);
-        repository.save(entity);
+        val entity = mockUserDto().toEntity()
+        entity.name = ("user")
+        entity.lastname = ("3")
+        entity.email = ("test@email.com")
+        entity.role = (RoleEnum.CLIENT)
+        entity.tmsSubscriptionDate = (LocalDateTime.now())
+        entity.tmsUpdate = (LocalDateTime.now())
+        entity.status = (StatusUserEnum.ACTIVE)
+        repository.save(entity)
         // Act
-        UserEntity found = repository.findByEmailIgnoreCase("TEST@email.com");
+        val found: UserEntity = repository.findByEmailIgnoreCase("TEST@email.com")
         // Assert
-        assertNotNull(found);
-        assertEquals("test@email.com", found.getEmail());
+        assertNotNull(found)
+        assertEquals("test@email.com", found.email)
     }
 
     @Test
-    void shouldFindAllByEmailIgnoreCaseIn_ArrangeActAssert() {
+    fun shouldFindAllByEmailIgnoreCaseIn_ArrangeActAssert() {
         // Arrange
-        UserEntity entity = new UserEntity();
-        entity.setName("user");
-        entity.setLastname("3");
-        entity.setEmail("user2@email.com");
-        entity.setRole(RoleEnum.CLIENT);
-        entity.setTmsSubscriptionDate(LocalDateTime.now());
-        entity.setTmsUpdate(LocalDateTime.now());
-        entity.setStatus(StatusUserEnum.ACTIVE);
-        repository.save(entity);
+        val entity = mockUserDto().toEntity()
+        entity.name = ("user")
+        entity.lastname = ("3")
+        entity.email = ("user2@email.com")
+        entity.role = (RoleEnum.CLIENT)
+        entity.tmsSubscriptionDate = (LocalDateTime.now())
+        entity.tmsUpdate = (LocalDateTime.now())
+        entity.status = (StatusUserEnum.ACTIVE)
+        repository.save(entity)
         // Act
-        List<UserEntity> found = repository.findAllByEmailIgnoreCaseIn(List.of("USER2@email.com"));
+        val found: List<UserEntity?> = repository.findAllByEmailIgnoreCaseIn(listOf("USER2@email.com"))
         // Assert
-        assertFalse(found.isEmpty());
-        assertEquals("user2@email.com", found.get(0).getEmail());
+        assertFalse(found.isEmpty())
+        assertEquals("user2@email.com", found[0]?.email)
     }
 
     @Test
-    void shouldFindAllByStatus_ArrangeActAssert() {
+    fun shouldFindAllByStatus_ArrangeActAssert() {
         // Arrange
-        UserEntity entity = new UserEntity();
-        entity.setName("user");
-        entity.setLastname("3");
-        entity.setEmail("user3@email.com");
-        entity.setStatus(StatusUserEnum.ACTIVE);
-        entity.setRole(RoleEnum.CLIENT);
-        entity.setTmsSubscriptionDate(LocalDateTime.now());
-        entity.setTmsUpdate(LocalDateTime.now());
-        entity.setStatus(StatusUserEnum.ACTIVE);
-        repository.save(entity);
+        val entity = mockUserDto().toEntity()
+        entity.name = ("user")
+        entity.lastname = ("3")
+        entity.email = ("user3@email.com")
+        entity.role = (RoleEnum.CLIENT)
+        entity.tmsSubscriptionDate = (LocalDateTime.now())
+        entity.tmsUpdate = (LocalDateTime.now())
+        entity.status = (StatusUserEnum.ACTIVE)
+        repository.save(entity)
         // Act
-        List<UserEntity> found = repository.findAllByStatus(StatusUserEnum.ACTIVE);
+        val found: List<UserEntity?> = repository.findAllByStatus(StatusUserEnum.ACTIVE)
         // Assert
-        assertFalse(found.isEmpty());
-        assertTrue(found.stream().anyMatch(u -> u.getEmail().equals("user3@email.com")));
+        assertFalse(found.isEmpty())
+        assertTrue(found.stream().anyMatch { u -> u?.email.equals("user3@email.com") })
     }
 
     @Test
-    void shouldUpdateStatusRelationshipsByEmail_ArrangeActAssert() {
+    fun shouldUpdateStatusRelationshipsByEmail_ArrangeActAssert() {
         // Arrange
-        UserEntity entity = new UserEntity();
-        entity.setName("user");
-        entity.setLastname("3");
-        entity.setEmail("user4@email.com");
-        entity.setStatus(StatusUserEnum.ACTIVE);
-        entity.setRole(RoleEnum.CLIENT);
-        entity.setTmsSubscriptionDate(LocalDateTime.now());
-        entity.setTmsUpdate(LocalDateTime.now());
-        entity.setStatus(StatusUserEnum.ACTIVE);
-        repository.save(entity);
+        val entity = mockUserDto().toEntity()
+        entity.name = ("user")
+        entity.lastname = ("3")
+        entity.email = ("user4@email.com")
+        entity.role = (RoleEnum.CLIENT)
+        entity.tmsSubscriptionDate = (LocalDateTime.now())
+        entity.tmsUpdate = (LocalDateTime.now())
+        entity.status = (StatusUserEnum.ACTIVE)
+        repository.save(entity)
         // Act
-        repository.statusRelationshipsByEmail("user4@email.com", StatusUserEnum.DISABLED);
-        entityManager.flush();
-        entityManager.clear();
-        UserEntity updated = repository.findByEmailIgnoreCase("user4@email.com");
+        repository.statusRelationshipsByEmail("user4@email.com", StatusUserEnum.DISABLED)
+        entityManager.flush()
+        entityManager.clear()
+        val updated: UserEntity = repository.findByEmailIgnoreCase("user4@email.com")
         // Assert
-        assertNotNull(updated);
-        assertEquals(StatusUserEnum.DISABLED, updated.getStatus());
+        assertNotNull(updated)
+        assertEquals(StatusUserEnum.DISABLED, updated.status)
     }
 }
 

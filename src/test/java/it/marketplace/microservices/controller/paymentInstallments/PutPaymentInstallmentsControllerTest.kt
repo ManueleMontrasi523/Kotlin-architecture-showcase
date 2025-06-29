@@ -1,46 +1,44 @@
-package it.marketplace.microservices.controller.paymentInstallments;
+package it.marketplace.microservices.controller.paymentInstallments
 
-import it.marketplace.microservices.config.exception.ServiceException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
+import it.marketplace.microservices.config.exception.ServiceException
+import it.marketplace.microservices.service.PaymentInstallmentsService
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
+import org.springframework.http.ResponseEntity
+import kotlin.test.assertEquals
 
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
-
-class PutPaymentInstallmentsControllerTest {
-
+class PutPaymentInstallmentsControllerTest : BaseTest() {
     @Mock
-    private PaymentInstallmentsService service;
+    private val service: PaymentInstallmentsService = mock()
 
     @InjectMocks
-    private PutPaymentInstallmentsController controller;
+    private val controller: PutPaymentInstallmentsController = mock()
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
     }
 
     @Test
-    void shouldPayInstallment_WhenValidOrderCodeAndNumber_ThenArrangeActAssert() throws ServiceException {
+    @Throws(ServiceException::class)
+    fun shouldPayInstallment_WhenValidOrderCodeAndNumber_ThenArrangeActAssert() {
         // Arrange
-        String orderCode = "ORD123";
-        int number = 1;
-        doNothing().when(service).payInstallments(orderCode, number);
+        val orderCode = "ORD123"
+        val number = 1
+        Mockito.doNothing().`when`(service).payInstallments(orderCode, number)
 
         // Act
-        ResponseEntity<Map<String, String>> response = controller.pay(orderCode, number);
+        val response: ResponseEntity<Map<String, String>> = controller.pay(orderCode, number)
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("Rate paid!", response.getBody().get("message"));
-        verify(service).payInstallments(orderCode, number);
+        assertEquals(200, response.statusCode.value())
+        assertEquals("Rate paid!", response.getBody()!!["message"])
+        Mockito.verify(service).payInstallments(orderCode, number)
     }
 }
-

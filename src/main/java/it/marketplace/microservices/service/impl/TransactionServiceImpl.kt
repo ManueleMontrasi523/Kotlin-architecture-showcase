@@ -83,11 +83,9 @@ class TransactionServiceImpl(
         if (orderEntities.isNotEmpty()) {
             orderCodes.forEach { order ->
                 val entity = paymentOrderRepository.findByOrderCodeAndStatus(order, StatusOrderEnum.CANCELLED)
-                if (entity != null) {
-                    entity.status = StatusOrderEnum.CANCELLED
-                    entity.tmsUpdate = LocalDateTime.now()
-                    toUpdate.add(entity)
-                }
+                entity.status = StatusOrderEnum.CANCELLED
+                entity.tmsUpdate = LocalDateTime.now()
+                toUpdate.add(entity)
             }
             logger.info("Aligned state in CANCELLED {} order", orderAligned)
         } else {

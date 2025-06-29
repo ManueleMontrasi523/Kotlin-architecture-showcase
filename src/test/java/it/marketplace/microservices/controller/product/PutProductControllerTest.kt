@@ -1,52 +1,56 @@
-package it.marketplace.microservices.controller.product;
+package it.marketplace.microservices.controller.product
 
-import it.marketplace.microservices.common.resource.ProductResource;
-import it.marketplace.microservices.config.exception.ServiceException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.WebDataBinder;
+import it.marketplace.microservices.common.dto.toResource
+import it.marketplace.microservices.common.resource.ProductResource
+import it.marketplace.microservices.config.exception.ServiceException
+import it.marketplace.microservices.config.validation.ProductValidator
+import it.marketplace.microservices.service.ProductService
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.WebDataBinder
+import kotlin.test.assertEquals
 
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
-
-class PutProductControllerTest {
+class PutProductControllerTest : BaseTest() {
 
     @Mock
-    private ProductService service;
+    private val service: ProductService = mock()
+
     @Mock
-    private ProductValidator validator;
+    private val validator: ProductValidator = mock()
+
     @Mock
-    private WebDataBinder binder;
+    private val binder: WebDataBinder = mock()
 
     @InjectMocks
-    private PutProductController controller;
+    private val controller: PutProductController = mock()
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-        controller.initBinder(binder);
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
+        controller.initBinder(binder)
     }
 
     @Test
-    void shouldUpdateProduct_WhenValidResource_ThenArrangeActAssert() throws ServiceException {
+    @Throws(ServiceException::class)
+    fun shouldUpdateProduct_WhenValidResource_ThenArrangeActAssert() {
         // Arrange
-        ProductResource resource = new ProductResource();
-        doNothing().when(service).update(ProductMapper.toDto(resource));
+        val resource = mockProductDto().toResource()
+        Mockito.doNothing().`when`(service).update(mockProductDto())
 
         // Act
-        ResponseEntity<Map<String, String>> response = controller.update(resource);
+        val response: ResponseEntity<Map<String, String>> = controller.update(resource)
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("Product updated!", response.getBody().get("message"));
-        verify(service).update(ProductMapper.toDto(resource));
+        assertEquals(200, response.statusCode.value())
+        assertEquals("Product updated!", response.getBody()!!["message"])
+        Mockito.verify(service).update(mockProductDto())
     }
 }
-

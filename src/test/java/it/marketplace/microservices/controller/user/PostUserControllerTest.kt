@@ -1,84 +1,86 @@
-package it.marketplace.microservices.controller.user;
+package it.marketplace.microservices.controller.user
 
-import it.marketplace.microservices.common.dto.UserDto;
-import it.marketplace.microservices.common.resource.UserResource;
-import it.marketplace.microservices.config.exception.ServiceException;
-import it.marketplace.microservices.config.mapper.UserMapper;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
+import it.marketplace.microservices.common.dto.toResource
+import it.marketplace.microservices.common.resource.toDto
+import it.marketplace.microservices.config.exception.ServiceException
+import it.marketplace.microservices.service.UserService
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
+import org.springframework.http.ResponseEntity
+import org.springframework.validation.BindingResult
+import org.springframework.validation.ObjectError
+import kotlin.test.assertEquals
 
-
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-
-class PostUserControllerTest {
+class PostUserControllerTest : BaseTest() {
 
     @Mock
-    private UserService service;
+    private val service: UserService = mock()
+
     @Mock
-    private BindingResult bindingResult;
+    private val bindingResult: BindingResult = mock()
 
     @InjectMocks
-    private PostUserController controller;
+    private val controller: PostUserController = mock()
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
     }
 
     @Test
-    void shouldAddUser_WhenValidResource_ThenArrangeActAssert() throws ServiceException {
+    @Throws(ServiceException::class)
+    fun shouldAddUser_WhenValidResource_ThenArrangeActAssert() {
         // Arrange
-        UserResource resource = new UserResource();
-        when(bindingResult.hasErrors()).thenReturn(false);
-        doNothing().when(service).save(UserMapper.toDto(resource));
+        val resource = mockUserDto().toResource()
+        Mockito.`when`(bindingResult.hasErrors()).thenReturn(false)
+        Mockito.doNothing().`when`(service).save(resource.toDto())
 
         // Act
-        ResponseEntity<?> response = controller.save(resource, bindingResult);
+        val response: ResponseEntity<*> = controller.save(resource, bindingResult)
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("User added!", ((Map<?, ?>) response.getBody()).get("message"));
-        verify(service).save(UserMapper.toDto(resource));
+        assertEquals(200, response.statusCode.value())
+        assertEquals("User added!", (response.getBody() as MutableMap<*, *>?)!!["message"])
+        Mockito.verify(service).save(resource.toDto())
     }
 
     @Test
-    void shouldReturnBadRequest_WhenBindingResultHasErrors_ThenArrangeActAssert() throws ServiceException {
+    @Throws(ServiceException::class)
+    fun shouldReturnBadRequest_WhenBindingResultHasErrors_ThenArrangeActAssert() {
         // Arrange
-        UserResource resource = new UserResource();
-        when(bindingResult.hasErrors()).thenReturn(true);
-        when(bindingResult.getAllErrors()).thenReturn(List.of());
+        val resource = mockUserDto().toResource()
+        Mockito.`when`(bindingResult.hasErrors()).thenReturn(true)
+        Mockito.`when`(bindingResult.allErrors).thenReturn(mutableListOf<ObjectError?>())
 
         // Act
-        ResponseEntity<?> response = controller.save(resource, bindingResult);
+        val response: ResponseEntity<*> = controller.save(resource, bindingResult)
 
         // Assert
-        assertEquals(400, response.getStatusCodeValue());
-        verify(bindingResult).getAllErrors();
+        assertEquals(400, response.statusCode.value())
+        Mockito.verify(bindingResult).allErrors
     }
 
     @Test
-    void shouldAddAllUsers_WhenValidResources_ThenArrangeActAssert() throws ServiceException {
+    @Throws(ServiceException::class)
+    fun shouldAddAllUsers_WhenValidResources_ThenArrangeActAssert() {
         // Arrange
-        UserResource resource = new UserResource();
-        List<UserResource> resources = List.of(resource);
-        List<UserDto> dtos = resources.stream().map(UserMapper::toDto).toList();
-        doNothing().when(service).saveAll(dtos);
+        val resource = mockUserDto().toResource()
+        val resources = listOf(resource)
+        val dtos = listOf(mockUserDto())
+        Mockito.doNothing().`when`(service).saveAll(dtos)
 
         // Act
-        ResponseEntity<?> response = controller.saveAll(resources);
+        val response: ResponseEntity<*> = controller!!.saveAll(resources)
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("Users added!", ((Map<?, ?>) response.getBody()).get("message"));
-        verify(service).saveAll(dtos);
+        assertEquals(200, response.statusCode.value())
+        assertEquals("Users added!", (response.getBody() as MutableMap<*, *>?)!!["message"])
+        Mockito.verify(service).saveAll(dtos)
     }
 }
-

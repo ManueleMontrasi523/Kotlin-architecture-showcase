@@ -1,60 +1,62 @@
-package it.marketplace.microservices.controller.order;
+package it.marketplace.microservices.controller.order
 
-import it.marketplace.microservices.common.resource.OrderResource;
-import it.marketplace.microservices.config.exception.ServiceException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
+import it.marketplace.microservices.common.dto.toResource
+import it.marketplace.microservices.config.exception.ServiceException
+import it.marketplace.microservices.service.OrderService
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
+import org.springframework.http.ResponseEntity
+import kotlin.test.assertEquals
 
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
-
-class PutOrderControllerTest {
-
+class PutOrderControllerTest : BaseTest() {
     @Mock
-    private OrderService service;
+    private val service: OrderService = mock()
 
     @InjectMocks
-    private PutOrderController controller;
+    private val controller: PutOrderController = mock()
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
     }
 
     @Test
-    void shouldUpdateOrder_WhenValidResource_ThenArrangeActAssert() throws ServiceException {
+    @Throws(ServiceException::class)
+    fun shouldUpdateOrder_WhenValidResource_ThenArrangeActAssert() {
         // Arrange
-        OrderResource resource = new OrderResource();
-        doNothing().when(service).update(OrderMapper.toDto(resource));
+        val dto = mockOrderDto()
+        val resource = dto.toResource()
+        Mockito.doNothing().`when`(service).update(dto)
 
         // Act
-        ResponseEntity<Map<String, String>> response = controller.update(resource);
+        val response: ResponseEntity<Map<String, String>> = controller.update(resource)
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("Order Updated!", response.getBody().get("message"));
-        verify(service).update(OrderMapper.toDto(resource));
+        assertEquals(200, response.statusCode.value())
+        assertEquals("Order Updated!", response.getBody()!!["message"])
+        Mockito.verify(service).update(dto)
     }
 
     @Test
-    void shouldCancelOrder_WhenValidOrderCode_ThenArrangeActAssert() throws ServiceException {
+    @Throws(ServiceException::class)
+    fun shouldCancelOrder_WhenValidOrderCode_ThenArrangeActAssert() {
         // Arrange
-        String code = "ORD123";
-        doNothing().when(service).cancel(code);
+        val code = "ORD123"
+        Mockito.doNothing().`when`(service).cancel(code)
 
         // Act
-        ResponseEntity<Map<String, String>> response = controller.cancel(code);
+        val response: ResponseEntity<Map<String, String>> = controller.cancel(code)
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("Order Cancelled!", response.getBody().get("message"));
-        verify(service).cancel(code);
+        assertEquals(200, response.statusCode.value())
+        assertEquals("Order Cancelled!", response.getBody()!!["message"])
+        Mockito.verify(service).cancel(code)
     }
 }
-

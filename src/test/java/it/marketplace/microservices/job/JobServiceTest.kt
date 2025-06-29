@@ -1,78 +1,81 @@
-package it.marketplace.microservices.job;
+package it.marketplace.microservices.job
 
-import it.marketplace.microservices.common.dto.OrderDto;
-import it.marketplace.microservices.common.dto.ProductDto;
-import it.marketplace.microservices.common.dto.ProductOrderDto;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import it.marketplace.microservices.rabbitmq.RabbitMqProducer
+import it.marketplace.microservices.service.OrderService
+import it.marketplace.microservices.service.ProductService
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
+import java.math.BigDecimal
 
-import java.math.BigDecimal;
-
-
-import static org.mockito.Mockito.*;
-
-class JobServiceTest {
+class JobServiceTest : BaseTest() {
 
     @Mock
-    private RabbitMqProducer producer;
+    private val producer: RabbitMqProducer = mock()
+
     @Mock
-    private OrderService orderService;
+    private val orderService: OrderService = mock()
+
     @Mock
-    private ProductService productService;
+    private val productService: ProductService = mock()
 
     @InjectMocks
-    private JobService jobService;
+    private val jobService: JobService = mock()
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
     }
 
     @Test
-    void shouldProcessOrderAndSendPendingPayment_WhenSupplyIsSufficient_ThenArrangeActAssert() {
+    fun shouldProcessOrderAndSendPendingPayment_WhenSupplyIsSufficient_ThenArrangeActAssert() {
         // Arrange
-        String orderCode = "ORD123";
-        ProductOrderDto productOrderDto = new ProductOrderDto();
-        productOrderDto.setProductCode("PROD1");
-        productOrderDto.setQuantity(BigDecimal.ONE);
-        productOrderDto.setTotal(10.0);
-        OrderDto orderDto = new OrderDto();
-        orderDto.setProductOrder(List.of(productOrderDto));
-        when(orderService.findByCode(orderCode)).thenReturn(orderDto);
-        ProductDto productDto = new ProductDto();
-        productDto.setSupply(BigDecimal.TEN);
-        when(productService.findByCode("PROD1")).thenReturn(productDto);
+        val orderCode = "ORD123"
+        val productOrderDto = mockProductOrderDto()
+        productOrderDto.productCode = "PROD1"
+        productOrderDto.quantity = BigDecimal.ONE
+        productOrderDto.total = 10.0
+        val orderDto = mockOrderDto()
+        orderDto.productOrder = listOf(productOrderDto)
+        Mockito.`when`(orderService.findByCode(orderCode)).thenReturn(orderDto)
+        val productDto = mockProductDto()
+        productDto.supply = BigDecimal.TEN
+        Mockito.`when`(productService.findByCode("PROD1")).thenReturn(productDto)
+        val message = mapOf("productCode" to "PROD1")
         // Act
-        jobService.startProcessing(orderCode);
+        jobService.startProcessing(orderCode)
         // Assert
-        verify(productService).saveAllDirectly(anyList());
-        verify(orderService).saveDirectly(orderDto);
-        verify(producer).sendMessagePendingPayment(anyMap());
+        Mockito.verify(productService).saveAllDirectly(listOf(mockProductDto()))
+        Mockito.verify(orderService).saveDirectly(orderDto)
+        Mockito.verify(producer).sendMessagePendingPayment(message)
     }
 
     @Test
-    void shouldRejectOrder_WhenSupplyIsInsufficient_ThenArrangeActAssert() {
+    fun shouldRejectOrder_WhenSupplyIsInsufficient_ThenArrangeActAssert() {
         // Arrange
-        String orderCode = "ORD124";
-        ProductOrderDto productOrderDto = new ProductOrderDto();
-        productOrderDto.setProductCode("PROD2");
-        productOrderDto.setQuantity(BigDecimal.TEN);
-        productOrderDto.setTotal(100.0);
-        OrderDto orderDto = new OrderDto();
-        orderDto.setProductOrder(List.of(productOrderDto));
-        when(orderService.findByCode(orderCode)).thenReturn(orderDto);
-        ProductDto productDto = new ProductDto();
-        productDto.setSupply(BigDecimal.ONE);
-        when(productService.findByCode("PROD2")).thenReturn(productDto);
+        val orderCode = "ORD124"
+        val productOrderDto = mockProductOrderDto()
+        productOrderDto.productCode = "PROD2"
+        productOrderDto.quantity = BigDecimal.TEN
+        productOrderDto.total = 100.0
+        val orderDto = mockOrderDto()
+        orderDto.productOrder = listOf(productOrderDto)
+        Mockito.`when`(orderService.findByCode(orderCode)).thenReturn(orderDto)
+        val productDto = mockProductDto()
+        productDto.supply = BigDecimal.ONE
+        Mockito.`when`(productService.findByCode("PROD2")).thenReturn(productDto)
+        val message = mapOf("productCode" to "PROD1")
         // Act
-        jobService.startProcessing(orderCode);
+        jobService.startProcessing(orderCode)
         // Assert
-        verify(productService).saveAllDirectly(anyList());
-        verify(orderService).saveDirectly(orderDto);
-        verify(producer, never()).sendMessagePendingPayment(anyMap());
+        Mockito.verify(productService).saveAllDirectly(listOf(mockProductDto()))
+        Mockito.verify(orderService).saveDirectly(orderDto)
+        Mockito.verify(producer, Mockito.never()).sendMessagePendingPayment(message)
     }
 }
 

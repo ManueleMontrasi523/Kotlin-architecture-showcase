@@ -107,9 +107,9 @@ class OrderServiceImpl @Autowired constructor(
     }
 
     override fun payOrder(orderCode: String) {
-        val entity = repository.findByOrderCodeIgnoreCase(orderCode)
-        entity?.status = StatusOrderEnum.PAID
-        entity?.tmsUpdate = LocalDateTime.now()
+        val entity = repository.findByOrderCodeIgnoreCase(orderCode)!!
+        entity.status = StatusOrderEnum.PAID
+        entity.tmsUpdate = LocalDateTime.now()
         repository.save(entity)
     }
 
@@ -120,7 +120,7 @@ class OrderServiceImpl @Autowired constructor(
         return entity
     }
 
-    private fun checkOrderOpenByUser(email: String) {
+    private fun checkOrderOpenByUser(email: String?) {
         if (repository.findOrderByUserMailAndStatus(email, StatusOrderEnum.CREATED) != null)
             throw ServiceException(
                 ErrorCode.ORDER_EXIST_FOR_USER_FOUND,

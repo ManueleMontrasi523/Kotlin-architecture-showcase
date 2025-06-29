@@ -29,7 +29,7 @@ class UserServiceImpl(
     override fun save(dto: UserDto) {
         try {
             val entityOld = repository.findByEmailIgnoreCase(dto.email)
-            if (entityOld != null) throw ServiceException(
+            if (entityOld.email != null) throw ServiceException(
                 ErrorCode.DATA_ALREADY_PRESENT,
                 "Email already registered"
             )
@@ -89,7 +89,7 @@ class UserServiceImpl(
      * @return the matching UserEntity
      * @throws ServiceException if the user is not found
      */
-    override fun findByEmailEntity(email: String): UserEntity {
+    override fun findByEmailEntity(email: String?): UserEntity {
         return checkIfUserExist(email)
     }
 
@@ -151,7 +151,7 @@ class UserServiceImpl(
      * @throws ServiceException if the user is not found
      */
     @Throws(ServiceException::class)
-    private fun checkIfUserExist(email: String): UserEntity {
+    private fun checkIfUserExist(email: String?): UserEntity {
         val entity = repository.findByEmailIgnoreCase(email)
         if (Objects.isNull(entity)) throw ServiceException(
             ErrorCode.EMAIL_NOT_FOUND,

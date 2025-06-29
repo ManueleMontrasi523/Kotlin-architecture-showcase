@@ -1,45 +1,42 @@
-package it.marketplace.microservices.controller.order;
+package it.marketplace.microservices.controller.order
 
-import it.marketplace.microservices.config.exception.ServiceException;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
+import it.marketplace.microservices.service.OrderService
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito.doNothing
+import org.mockito.Mockito.verify
+import org.mockito.MockitoAnnotations
+import org.springframework.http.ResponseEntity
+import kotlin.test.assertEquals
 
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
-
-class DeleteOrderControllerTest {
+class DeleteOrderControllerTest : BaseTest() {
 
     @Mock
-    private OrderService service;
+    private lateinit var service: OrderService
 
     @InjectMocks
-    private DeleteOrderController controller;
+    private lateinit var controller: DeleteOrderController
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
     }
 
     @Test
-    void shouldDeleteOrder_WhenValidOrderCode_ThenArrangeActAssert() throws ServiceException {
+    fun `should delete order when valid order code then arrange act assert`() {
         // Arrange
-        String orderCode = "ORD123";
-        doNothing().when(service).deleteByCode(orderCode);
+        val orderCode = "ORD123"
+        doNothing().`when`(service).deleteByCode(orderCode)
 
         // Act
-        ResponseEntity<Map<String, String>> response = controller.delete(orderCode);
+        val response: ResponseEntity<Map<String, String>> = controller.delete(orderCode)
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals("Order deleted!", response.getBody().get("message"));
-        verify(service).deleteByCode(orderCode);
+        assertEquals(200, response.statusCode.value())
+        assertEquals("Order deleted!", response.body?.getValue("message"))
+        verify(service).deleteByCode(orderCode)
     }
 }
-

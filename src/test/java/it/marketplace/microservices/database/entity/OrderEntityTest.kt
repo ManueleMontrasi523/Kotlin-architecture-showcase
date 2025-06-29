@@ -1,82 +1,75 @@
-package it.marketplace.microservices.database.entity;
+package it.marketplace.microservices.database.entity
 
-import it.marketplace.microservices.common.enums.StatusOrderEnum;
-import org.junit.jupiter.api.Test;
+import it.marketplace.microservices.common.dto.toEntity
+import it.marketplace.microservices.common.enums.StatusOrderEnum
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.Test
+import java.time.LocalDateTime
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
-import java.time.LocalDateTime;
-
-
-import static org.junit.jupiter.api.Assertions.*;
-
-class OrderEntityTest {
+class OrderEntityTest : BaseTest() {
 
     @Test
-    void shouldCreateEntityWithAllArgsConstructor_ArrangeActAssert() {
+    fun shouldCreateEntityWithAllArgsConstructor_ArrangeActAssert() {
         // Arrange/Act
-        UserEntity user = new UserEntity();
-        ProductOrderEntity productOrder = new ProductOrderEntity();
-        LocalDateTime now = LocalDateTime.now();
-        OrderEntity entity = new OrderEntity(1L, "ORD123", user, List.of(productOrder), StatusOrderEnum.CREATED, "reason", now, now);
+        val user = mockUserDto().toEntity()
+        val productOrder = mockProductOrderDto().toEntity()
+        val now = LocalDateTime.now()
+        val entity = OrderEntity(1L, "ORD123", user, listOf(productOrder), StatusOrderEnum.CREATED, "reason", now, now)
         // Assert
-        assertEquals(1L, entity.getId());
-        assertEquals("ORD123", entity.getOrderCode());
-        assertEquals(user, entity.getUser());
-        assertEquals(1, entity.getProductOrder().size());
-        assertEquals(StatusOrderEnum.CREATED, entity.getStatus());
-        assertEquals("reason", entity.getRejectReason());
-        assertEquals(now, entity.getOrderDate());
-        assertEquals(now, entity.getTmsUpdate());
+        assertEquals(1L, entity.id)
+        assertEquals("ORD123", entity.orderCode)
+        assertEquals(user, entity.user)
+        assertEquals(1, entity.productOrder.size)
+        assertEquals(StatusOrderEnum.CREATED, entity.status)
+        assertEquals("reason", entity.rejectReason)
+        assertEquals(now, entity.orderDate)
+        assertEquals(now, entity.tmsUpdate)
     }
 
     @Test
-    void shouldSetAndGetFields_ArrangeActAssert() {
+    fun shouldSetAndGetFields_ArrangeActAssert() {
         // Arrange
-        OrderEntity entity = new OrderEntity();
-        UserEntity user = new UserEntity();
-        ProductOrderEntity productOrder = new ProductOrderEntity();
-        LocalDateTime now = LocalDateTime.now();
+        val entity = mockOrderDto().toEntity()
+        val user = mockUserDto().toEntity()
+        val productOrder = mockProductOrderDto().toEntity()
+        val now = LocalDateTime.now()
         // Act
-        entity.setId(2L);
-        entity.setOrderCode("ORD456");
-        entity.setUser(user);
-        entity.setProductOrder(List.of(productOrder));
-        entity.setStatus(StatusOrderEnum.REJECTED);
-        entity.setRejectReason("bad reason");
-        entity.setOrderDate(now);
-        entity.setTmsUpdate(now);
+        entity.orderCode = "ORD456"
+        entity.user = user
+        entity.productOrder = listOf(productOrder)
+        entity.status = StatusOrderEnum.REJECTED
+        entity.rejectReason = "bad reason"
+        entity.orderDate = now
+        entity.tmsUpdate = now
         // Assert
-        assertEquals(2L, entity.getId());
-        assertEquals("ORD456", entity.getOrderCode());
-        assertEquals(user, entity.getUser());
-        assertEquals(1, entity.getProductOrder().size());
-        assertEquals(StatusOrderEnum.REJECTED, entity.getStatus());
-        assertEquals("bad reason", entity.getRejectReason());
-        assertEquals(now, entity.getOrderDate());
-        assertEquals(now, entity.getTmsUpdate());
+        assertEquals("ORD456", entity.orderCode)
+        assertEquals(user, entity.user)
+        assertEquals(1, entity.productOrder.size)
+        assertEquals(StatusOrderEnum.REJECTED, entity.status)
+        assertEquals("bad reason", entity.rejectReason)
+        assertEquals(now, entity.orderDate)
+        assertEquals(now, entity.tmsUpdate)
     }
 
     @Test
-    void shouldTestEqualsAndHashCode_ArrangeActAssert() {
+    fun shouldTestEqualsAndHashCode_ArrangeActAssert() {
         // Arrange
-        OrderEntity e1 = new OrderEntity();
-        OrderEntity e2 = new OrderEntity();
-        // Act
-        e1.setId(1L); e2.setId(1L);
-        e1.setOrderCode("ORD"); e2.setOrderCode("ORD");
+        val e1 = mockOrderDto().toEntity()
+        val e2 = mockOrderDto().toEntity()
         // Assert
-        assertEquals(e1, e2);
-        assertEquals(e1.hashCode(), e2.hashCode());
+        assertEquals(e1, e2)
+        assertEquals(e1.hashCode(), e2.hashCode())
     }
 
     @Test
-    void shouldTestToString_ArrangeActAssert() {
+    fun shouldTestToString_ArrangeActAssert() {
         // Arrange
-        OrderEntity entity = new OrderEntity();
-        entity.setOrderCode("ORD");
+        val entity = mockOrderDto().toEntity()
         // Act
-        String str = entity.toString();
+        val str = entity.toString()
         // Assert
-        assertTrue(str.contains("ORD"));
+        assertTrue(str.contains("ORD"))
     }
 }
-

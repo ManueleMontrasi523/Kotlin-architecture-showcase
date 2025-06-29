@@ -1,69 +1,68 @@
-package it.marketplace.microservices.controller.user;
+package it.marketplace.microservices.controller.user
 
-import it.marketplace.microservices.common.dto.UserDto;
-import it.marketplace.microservices.common.enums.StatusUserEnum;
-import it.marketplace.microservices.common.resource.UserResource;
-import it.marketplace.microservices.config.exception.ServiceException;
-import it.marketplace.microservices.config.mapper.UserMapper;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
+import it.marketplace.microservices.common.dto.toResource
+import it.marketplace.microservices.common.enums.StatusUserEnum
+import it.marketplace.microservices.common.resource.UserResource
+import it.marketplace.microservices.config.exception.ServiceException
+import it.marketplace.microservices.service.UserService
+import it.marketplace.microservices.utils.BaseTest
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.MockitoAnnotations
+import org.springframework.http.ResponseEntity
+import kotlin.test.assertEquals
 
-
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
-
-class GetUserControllerTest {
+class GetUserControllerTest : BaseTest() {
 
     @Mock
-    private UserService service;
+    private val service: UserService = mock()
 
     @InjectMocks
-    private GetUserController controller;
+    private val controller: GetUserController = mock()
 
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    fun setUp() {
+        MockitoAnnotations.openMocks(this)
     }
 
     @Test
-    void shouldReturnUser_WhenFindByEmail_ThenArrangeActAssert() throws ServiceException {
+    @Throws(ServiceException::class)
+    fun shouldReturnUser_WhenFindByEmail_ThenArrangeActAssert() {
         // Arrange
-        String email = "test@email.com";
-        UserDto dto = new UserDto();
-        UserResource expected = UserMapper.toResource(dto);
-        when(service.findByEmail(email)).thenReturn(dto);
+        val email = "test@email.com"
+        val dto = mockUserDto()
+        val expected = dto.toResource()
+        Mockito.`when`(service.findByEmail(email)).thenReturn(dto)
 
         // Act
-        ResponseEntity<UserResource> response = controller.find(email);
+        val response: ResponseEntity<UserResource> = controller.find(email)
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals(expected, response.getBody());
-        verify(service).findByEmail(email);
+        assertEquals(200, response.statusCode.value())
+        assertEquals(expected, response.getBody())
+        Mockito.verify(service).findByEmail(email)
     }
 
     @Test
-    void shouldReturnAllUsers_WhenFindAllByStatus_ThenArrangeActAssert() throws ServiceException {
+    @Throws(ServiceException::class)
+    fun shouldReturnAllUsers_WhenFindAllByStatus_ThenArrangeActAssert() {
         // Arrange
-        StatusUserEnum status = StatusUserEnum.ACTIVE;
-        UserDto dto = new UserDto();
-        List<UserDto> dtos = List.of(dto);
-        when(service.findAll(status)).thenReturn(dtos);
-        List<UserResource> expected = dtos.stream().map(UserMapper::toResource).toList();
+        val status = StatusUserEnum.ACTIVE
+        val dto = mockUserDto()
+        val dtos = listOf(dto)
+        Mockito.`when`(service.findAll(status)).thenReturn(dtos)
+        val expected = listOf(dto.toResource())
 
         // Act
-        ResponseEntity<List<UserResource>> response = controller.findAll(status);
+        val response: ResponseEntity<kotlin.collections.List<UserResource>> = controller.findAll(status)
 
         // Assert
-        assertEquals(200, response.getStatusCodeValue());
-        assertEquals(expected, response.getBody());
-        verify(service).findAll(status);
+        assertEquals(200, response.statusCode.value())
+        assertEquals(expected, response.getBody())
+        Mockito.verify(service).findAll(status)
     }
 }
-
