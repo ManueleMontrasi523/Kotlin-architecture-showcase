@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6cb39f6f-6ed4-4240-9391-cdf1377e4408" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.external-service-api/Products" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.external-service-api/Users" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/receiver/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/receiver/src/main/kotlin/it/marketplace/MyRabbitListener.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/receiver/src/test/kotlin/it/marketplace/MyRabbitListenerTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/receiver/target/marketplace-hexagonal-architecture-adapter-input-receiver-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/receiver/target/maven-archiver/pom.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/main/kotlin/it/marketplace/HomeController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/main/kotlin/it/marketplace/order/DeleteOrderController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/main/kotlin/it/marketplace/order/GetOrderController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/main/kotlin/it/marketplace/order/PostOrderController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/main/kotlin/it/marketplace/order/PutOrderController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/main/kotlin/it/marketplace/paymentInstallments/GetPaymentInstallmentsController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/main/kotlin/it/marketplace/paymentInstallments/PutPaymentInstallmentsController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/main/kotlin/it/marketplace/paymentOrder/GetPaymentOrderController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/main/kotlin/it/marketplace/paymentOrder/PutPaymentOrderController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/main/kotlin/it/marketplace/product/DeleteProductController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/main/kotlin/it/marketplace/product/GetProductController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/main/kotlin/it/marketplace/product/PostProductController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/main/kotlin/it/marketplace/product/PutProductController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/main/kotlin/it/marketplace/user/DeleteUserController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/main/kotlin/it/marketplace/user/GetUserController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/main/kotlin/it/marketplace/user/PostUserController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/main/kotlin/it/marketplace/user/PutUserController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/main/kotlin/it/marketplace/user/StatusUserController.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/test/kotlin/it/marketplace/HomeControllerTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/test/kotlin/it/marketplace/order/DeleteOrderControllerTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/test/kotlin/it/marketplace/order/GetOrderControllerTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/test/kotlin/it/marketplace/order/PostOrderControllerTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/test/kotlin/it/marketplace/order/PutOrderControllerTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/test/kotlin/it/marketplace/paymentInstallments/GetPaymentInstallmentsControllerTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/test/kotlin/it/marketplace/paymentInstallments/PutPaymentInstallmentsControllerTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/test/kotlin/it/marketplace/paymentOrder/GetPaymentOrderControllerTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/test/kotlin/it/marketplace/paymentOrder/PutPaymentOrderControllerTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/test/kotlin/it/marketplace/product/DeleteProductControllerTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/test/kotlin/it/marketplace/product/GetProductControllerTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/test/kotlin/it/marketplace/product/PostProductControllerTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/test/kotlin/it/marketplace/product/PutProductControllerTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/test/kotlin/it/marketplace/user/DeleteUserControllerTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/test/kotlin/it/marketplace/user/GetUserControllerTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/test/kotlin/it/marketplace/user/PostUserControllerTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/test/kotlin/it/marketplace/user/PutUserControllerTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/src/test/kotlin/it/marketplace/user/StatusUserControllerTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/target/marketplace-hexagonal-architecture-adapter-input-rest-connector-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/input/rest-connector/target/maven-archiver/pom.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/src/main/kotlin/it.marketplace/entity/OrderEntity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/src/main/kotlin/it.marketplace/entity/PaymentInstallmentsEntity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/src/main/kotlin/it.marketplace/entity/PaymentOrderEntity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/src/main/kotlin/it.marketplace/entity/ProductEntity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/src/main/kotlin/it.marketplace/entity/ProductOrderEntity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/src/main/kotlin/it.marketplace/entity/UserEntity.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/src/main/kotlin/it.marketplace/repository/OrderRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/src/main/kotlin/it.marketplace/repository/PaymentInstallmentsRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/src/main/kotlin/it.marketplace/repository/PaymentOrderRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/src/main/kotlin/it.marketplace/repository/ProductRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/src/main/kotlin/it.marketplace/repository/UserRepository.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/src/test/kotlin/it.marketplace/entity/OrderEntityTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/src/test/kotlin/it.marketplace/entity/PaymentInstallmentsEntityTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/src/test/kotlin/it.marketplace/entity/PaymentOrderEntityTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/src/test/kotlin/it.marketplace/entity/ProductEntityTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/src/test/kotlin/it.marketplace/entity/ProductOrderEntityTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/src/test/kotlin/it.marketplace/entity/UserEntityTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/src/test/kotlin/it.marketplace/repository/OrderRepositoryTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/src/test/kotlin/it.marketplace/repository/PaymentInstallmentsRepositoryTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/src/test/kotlin/it.marketplace/repository/PaymentOrderRepositoryTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/src/test/kotlin/it.marketplace/repository/ProductRepositoryTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/src/test/kotlin/it.marketplace/repository/UserRepositoryTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/target/marketplace-hexagonal-architecture-adapter-output-database-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/database/target/maven-archiver/pom.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/output/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/adapter/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/src/main/kotlin/it.marketplace/StartApplication.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/src/main/resources/static/css/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/src/main/resources/static/css/payment.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/src/main/resources/static/css/product.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/src/main/resources/static/css/user.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/src/main/resources/static/js/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/src/main/resources/static/js/payment.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/src/main/resources/static/js/product.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/src/main/resources/static/js/user.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/src/main/resources/templates/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/src/main/resources/templates/payment.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/src/main/resources/templates/product.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/src/main/resources/templates/user.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/target/classes/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/target/classes/static/css/index.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/target/classes/static/css/payment.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/target/classes/static/css/product.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/target/classes/static/css/user.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/target/classes/static/js/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/target/classes/static/js/payment.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/target/classes/static/js/product.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/target/classes/static/js/user.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/target/classes/templates/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/target/classes/templates/payment.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/target/classes/templates/product.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/target/classes/templates/user.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/target/marketplace-hexagonal-architecture-application-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/target/marketplace-hexagonal-architecture-application-1.0-SNAPSHOT.jar.original" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/application/target/maven-archiver/pom.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/batch/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/batch/src/main/kotlin/it.marketplace/OrderSchedulerCreated.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/batch/src/test/kotlin/it.marketplace/OrderSchedulerCreatedTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/batch/target/marketplace-hexagonal-architecture-batch-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/batch/target/maven-archiver/pom.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/common/dto/OrderDto.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/common/dto/PaymentInstallmentsDto.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/common/dto/PaymentOrderDto.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/common/dto/ProductDto.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/common/dto/ProductOrderDto.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/common/dto/UserDto.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/common/enums/Enums.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/common/resource/OrderResource.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/common/resource/PaymentInstallmentsResource.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/common/resource/PaymentOrderResource.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/common/resource/ProductOrderResource.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/common/resource/ProductResource.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/common/resource/UserResource.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/config/exception/ServiceException.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/config/interceptor/ApiError.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/config/interceptor/ExceptionCustomHandler.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/config/rabbitmq/RabbitMqConfig.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/config/rabbitmq/RabbitMqProducer.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/config/validation/ProductValidator.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/config/validation/UserValidator.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/job/JobService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/service/OrderService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/service/PaymentInstallmentsService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/service/PaymentOrderService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/service/ProductService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/service/TransactionService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/service/UserService.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/service/impl/OrderServiceImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/service/impl/PaymentInstallmentsServiceImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/service/impl/PaymentOrderServiceImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/service/impl/ProductServiceImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/service/impl/TransactionServiceImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/service/impl/UserServiceImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/main/kotlin/it.marketplace/utils/OrderGenerator.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/common/dto/OrderDtoTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/common/dto/PaymentInstallmentsDtoTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/common/dto/ProductDtoTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/common/dto/ProductOrderDtoTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/common/dto/UserDtoTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/common/resource/OrderResourceTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/common/resource/PaymentInstallmentsResourceTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/common/resource/PaymentOrderResourceTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/common/resource/ProductOrderResourceTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/common/resource/ProductResourceTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/common/resource/UserResourceTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/config/exception/ServiceExceptionTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/config/interceptor/ApiErrorTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/config/interceptor/ExceptionCustomHandlerTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/config/rabbitmq/RabbitMqConfigTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/config/validation/ProductValidatorTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/config/validation/UserValidatorTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/job/JobServiceTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/rabbitmq/RabbitMqProducerTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/service/OrderServiceTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/service/PaymentInstallmentsServiceTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/service/PaymentOrderServiceTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/service/ProductServiceTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/service/TransactionServiceTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/service/UserServiceTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/utils/BaseTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/test/kotlin/it.marketplace/utils/OrderGeneratorTest.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/target/marketplace-hexagonal-architecture-core-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/target/maven-archiver/pom.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/db-tables.mv.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "ManueleMontrasi523"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/ManueleMontrasi523/Kotlin-architecture-showcase.git",
+    "accountId": "5c123730-c051-4073-b50e-9001a68f4c2e"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="2zDQrEO1AYWIitO4vBPrAIwQqEa" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Notification.DisplayName-DoNotAsk-DatabaseConfigFileWatcher.found": "Database connection parameters found",
+    "Notification.DoNotAsk-DatabaseConfigFileWatcher.found": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "marketplace-hexagonal-architecture",
+    "ignore.virus.scanning.warn.message": "true",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.4361335",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="Kotlin-architecture-showcase" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="Kotlin-architecture-showcase" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.26094.121" />
+        <option value="bundled-js-predefined-d6986cc7102b-b26f3e71634d-JavaScript-IU-251.26094.121" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6cb39f6f-6ed4-4240-9391-cdf1377e4408" name="Changes" comment="" />
+      <created>1751263360355</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1751263360355</updated>
+      <workItem from="1751263362008" duration="177000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/adapter/input/receiver/marketplace-hexagonal-architecture-adapter-input-receiver.iml" filepath="$PROJECT_DIR$/adapter/input/receiver/marketplace-hexagonal-architecture-adapter-input-receiver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/adapter/input/rest-connector/marketplace-hexagonal-architecture-adapter-input-rest-connector.iml" filepath="$PROJECT_DIR$/adapter/input/rest-connector/marketplace-hexagonal-architecture-adapter-input-rest-connector.iml" />
+      <module fileurl="file://$PROJECT_DIR$/adapter/output/database/marketplace-hexagonal-architecture-adapter-output-database.iml" filepath="$PROJECT_DIR$/adapter/output/database/marketplace-hexagonal-architecture-adapter-output-database.iml" />
+      <module fileurl="file://$PROJECT_DIR$/application/marketplace-hexagonal-architecture-application.iml" filepath="$PROJECT_DIR$/application/marketplace-hexagonal-architecture-application.iml" />
+      <module fileurl="file://$PROJECT_DIR$/batch/marketplace-hexagonal-architecture-batch.iml" filepath="$PROJECT_DIR$/batch/marketplace-hexagonal-architecture-batch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/core/marketplace-hexagonal-architecture-core.iml" filepath="$PROJECT_DIR$/core/marketplace-hexagonal-architecture-core.iml" />
+    </modules>
+  </component>
+</project>

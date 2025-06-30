@@ -1,0 +1,30 @@
+package it.marketplace.config.interceptor
+
+import it.marketplace.common.enums.ErrorCode
+import it.marketplace.config.exception.ServiceException
+import it.marketplace.utils.BaseTest
+import org.junit.jupiter.api.Test
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+
+class ExceptionCustomHandlerTest: BaseTest() {
+    private val handler = ExceptionCustomHandler()
+
+    @Test
+    fun shouldHandleServiceExceptionAndReturnApiError() {
+        // Arrange
+        val ex = ServiceException(ErrorCode.PRODUCT_NOT_FOUND, "Product not found!")
+        // Act
+        val response: ResponseEntity<ApiError> = handler.handleGenericException(ex)
+        // Assert
+        assertEquals(HttpStatus.BAD_REQUEST, response.statusCode)
+        val error = response.body
+        assertNotNull(error)
+        assertEquals(HttpStatus.BAD_REQUEST.value(), error.status)
+        assertEquals(ErrorCode.PRODUCT_NOT_FOUND, error.code)
+        assertEquals("Product not found!", error.message)
+    }
+}
+
